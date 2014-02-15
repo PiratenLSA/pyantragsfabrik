@@ -1,0 +1,77 @@
+table.appl-overview {
+    background-color: white;
+    border-color: #333;
+    border-style: solid;
+    border-width: 1px;
+    -moz-border-radius: 9px;
+    -webkit-border-radius: 9px;
+    border-radius: 9px;
+    -moz-box-shadow: 5px 5px 9px #999;
+    -webkit-box-shadow: 5px 5px 9px #999;
+    box-shadow: 5px 5px 9px #999;
+    margin-left: 1em;
+    padding-left: 1em;
+    padding-right: 1em;
+    padding-bottom: 1em;
+    font-weight: bold;
+    margin-bottom: 1em;
+}
+
+table.appl-overview th {
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #333;
+}
+
+.appl-pre-box {
+    width: 98%;
+    background: #CCC;
+    border: 1px solid #000;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.appl-pre-box .draft-color {
+    color: #00A;
+}
+
+.appl-pre-box .submitted-color {
+    color: #F00;
+}
+
+table.appl-main-box td {
+    width: 100%;
+    background: #f7f7f7;
+    border: 2px solid #ccc;
+    -moz-border-radius-topright: 23px;
+    -webkit-border-top-right-radius: 23px;
+    border-top-right-radius: 23px;
+    -moz-border-radius-topleft: 23px;
+    -webkit-border-top-left-radius: 23px;
+    border-top-left-radius: 23px;
+    -moz-border-radius-bottomleft: 23px;
+    -webkit-border-bottom-left-radius: 23px;
+    border-bottom-left-radius: 23px;
+    -moz-border-radius-bottomright: 23px;
+    -webkit-border-bottom-right-radius: 23px;
+    border-bottom-right-radius: 23px;
+    -moz-box-shadow: 5px 5px 9px #999;
+    -webkit-box-shadow: 5px 5px 9px #999;
+    box-shadow: 5px 5px 9px #999;
+}
+
+table.appl-main-box td .label {
+    margin: 0;
+    margin-bottom: .3em;
+    padding-top: .5em;
+    padding-bottom: .17em;
+    background: none;
+    font-size: 132%;
+    color: #000;
+    font-weight: bold
+}
+
+table.appl-main-box td .text {
+    background-color: #eee;
+    padding: 23px
+}

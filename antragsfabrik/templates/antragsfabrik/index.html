@@ -1,0 +1,23 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/style.css' %}"/>
+
+{% if latest_application_list %}
+    <table cellpadding=2 width=95% class="appl-overview">
+        <tr>
+            <th>Typ</th>
+            <th>NR</th>
+            <th>Title</th>
+            <th>Antragsteller</th>
+        </tr>
+        {% for application in latest_application_list %}
+            <tr>
+                <td>{{ application.typ }}</td>
+                <td>{{ application.number }}</td>
+                <td><a href="{% url 'detail' application.id %}">{{ application.title }}</a></td>
+                <td>{{ application.author }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% else %}
+    <p>No applications are available.</p>
+{% endif %}
