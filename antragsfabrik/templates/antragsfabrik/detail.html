@@ -1,47 +1,47 @@
+{% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
-<link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/style.css' %}"/>
 
-<h1>{{ application.title }}</h1>
+{% block content %}
+    <h2>
+        {{ application.typ }}: {% if application.number %}<strong>{{ application.number }}:</strong>
+        &nbsp;{% endif %}{{ application.title }}
+    </h2>
 
-<div class="appl-pre-box">
-    <table>
-        <tr>
-            <td>
-                {% if application.status == 'S' %}
-                    <img src="{% static "antragsfabrik/images/80px-Pictogram_voting_wait_blue.svg.png" %}" width="80" alt="submitted" />
-                {% else %}
-                    <img src="{% static "antragsfabrik/images/80px-Tango-preferences-system.svg.png" %}" width="80" alt="draft" />
-                {% endif %}
-            </td>
+    <div class="appl-pre-box">
+        <table>
+            <tr>
+                <td>
+                    {% if application.status == 'S' %}
+                        <img src="{% static "antragsfabrik/images/80px-Pictogram_voting_wait_blue.svg.png" %}"
+                             width="80"
+                             alt="submitted"/>
+                    {% else %}
+                        <img src="{% static "antragsfabrik/images/80px-Tango-preferences-system.svg.png" %}" width="80"
+                             alt="draft"/>
+                    {% endif %}
+                </td>
 
-            <td>
-                <strong>Dies ist ein {% if application.status == 'S' %}<em>eingereichter {{ application.typ }}
-                    </em>{% else %}
-                    {{ application.typ }} <span class="draft-color">(im Entwurfsstadium)</span>{% endif %} für den
-                    Landesparteitag.</strong><br/><br/>
+                <td>
+                    <strong>Dies ist ein {% if application.status == 'S' %}<em>eingereichter {{ application.typ }}
+                        </em>{% else %}
+                        {{ application.typ }} <span class="draft-color">(im Entwurfsstadium)</span>{% endif %} für den
+                        Landesparteitag.</strong><br/><br/>
 
-                {% if application.status == 'S' %}
-                    Bitte diskutiere den Antrag, und bekunde Deine Unterstützung oder Ablehnung auf dieser Seite, bzw.,
-                    falls möglich, in LiquidFeedback.
-                    <span class="submitted-color">Der Antragstext darf nicht mehr verändert werden!</span>
-                {% else %}
-                    Bitte hilf mit diesen Antrag zu verbessern und zu erweitern. Bitte bekunde auch Deine Unterstützung
-                    oder Ablehnung auf dieser Seite, bzw., falls möglich, in LiquidFeedback.
-                {% endif %}
-            </td>
-        </tr>
-    </table>
-</div>
+                    {% if application.status == 'S' %}
+                        Bitte diskutiere den Antrag, und bekunde Deine Unterstützung oder Ablehnung auf dieser Seite,
+                        bzw., falls möglich, in LiquidFeedback.
+                        <span class="submitted-color">Der Antragstext darf nicht mehr verändert werden!</span>
+                    {% else %}
+                        Bitte hilf mit diesen Antrag zu verbessern und zu erweitern. Bitte bekunde auch Deine
+                        Unterstützung oder Ablehnung auf dieser Seite, bzw., falls möglich, in LiquidFeedback.
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
 
-<table cellpadding="20px" cellspacing="10px" border="0" style="width:100%;" class="appl-main-box">
-    <tr style="width:100%;">
-        <td>
-            <div class="label">
-                Antragstitel
-            </div>
-            {% if application.number %}<strong>{{ application.number }}:</strong>
-                &nbsp;{% endif %}{{ application.title }}
-
+    <div class="appl-main-box">
+        <div class="appl-info-box">
             <div class="label">
                 Antragsteller
             </div>
@@ -53,37 +53,40 @@
             {{ application.typ }}
 
             <div class="label">
-                Antragstext
-            </div>
-            <div class="text">
-                {{ application.text }}
-            </div>
-
-            <div class="label">
-                Antragsbegründung
-            </div>
-            {{ application.reasons }}
-
-            <div class="label">
                 LiquidFeedback
             </div>
             <ul>
                 {% for ini in application.lqfbinitiative_set.all %}
-                    <li>{{ ini.title }}</li>
+                    <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
                 {% endfor %}
             </ul>
 
-            <div class="label">
-                Diskussion
-            </div>
-            <ul>
-                <li>{{ application.discussion }}</li>
-            </ul>
+            {% if application.discussion %}
+                <div class="label">
+                    Diskussion
+                </div>
+                <ul>
+                    <li><a href="{{ application.discussion }}">{{ application.discussion }}</a></li>
+                </ul>
+            {% endif %}
 
             <div class="label">
                 Datum der letzten Änderung
             </div>
             {{ application.updated }}
-        </td>
-    </tr>
-</table>
+        </div>
+
+        <div class="label">
+            Antragstext
+        </div>
+        <div class="text">
+            {{ application.text }}
+        </div>
+
+        <div class="label">
+            Antragsbegründung
+        </div>
+        {{ application.reasons }}
+        <div style="clear: both"></div>
+    </div>
+{% endblock %}

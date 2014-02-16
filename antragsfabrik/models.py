@@ -27,7 +27,7 @@ class Application(models.Model):
     title = models.CharField(max_length=200)
     text = models.TextField()
     reasons = models.TextField()
-    discussion = models.URLField()
+    discussion = models.URLField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     submitted = models.DateTimeField(null=True, blank=True, editable=False)

@@ -1,0 +1,51 @@
+table.appl-overview {
+    background-color: white;
+    border: 1px solid #333;
+    font-weight: bold;
+}
+
+table.appl-overview th {
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #333;
+}
+
+.appl-pre-box {
+    width: 98%;
+    background: #CCC;
+    border: 1px solid #000;
+    margin-bottom: 15px;
+    padding: 5px;
+}
+
+.appl-pre-box .draft-color {
+    color: #00A;
+}
+
+.appl-pre-box .submitted-color {
+    color: #F00;
+}
+
+.appl-main-box {
+}
+
+.appl-info-box {
+    float: right;
+    border: 1px solid black;
+    background-color: #ffffff;
+    padding: 5px;
+}
+
+.appl-main-box .label {
+    margin: 0 0 .3em;
+    padding-top: .5em;
+    padding-bottom: .17em;
+    background: none;
+    color: #000;
+    font-weight: bold
+}
+
+.appl-main-box .text {
+    background-color: #eee;
+    padding: 23px
+}

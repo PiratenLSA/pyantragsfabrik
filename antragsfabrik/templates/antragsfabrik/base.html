@@ -1,0 +1,32 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>{% block title %}Antragsfabrik{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/base.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/antragsfabrik.css' %}"/>
+    <meta charset="UTF-8"/>
+</head>
+<body>
+<header>
+    <h1>Antragsfabrik</h1>
+</header>
+
+<div id="c_wrap" class="wrapper">
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Anträge</a></li>
+            <li><a href="{% url 'create' %}">Antrag einreichen</a></li>
+        </ul>
+    </nav>
+
+    <div class="filler"></div>
+
+    <div class="inner">
+        {% block content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>
