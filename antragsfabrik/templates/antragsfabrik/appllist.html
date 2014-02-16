@@ -1,0 +1,16 @@
+<table cellpadding=2 width=95% class="appl-overview">
+    <tr>
+        <th>NR</th>
+        <th>Title</th>
+        <th>Status</th>
+        <th>Antragsteller</th>
+    </tr>
+    {% for application in appl_list %}
+        <tr>
+            <td>{{ application.number }}</td>
+            <td><a href="{% url 'detail' application.id %}">{{ application.title }}</a></td>
+            <td>{{ application.status_name }}</td>
+            <td>{{ application.author }}</td>
+        </tr>
+    {% endfor %}
+</table>

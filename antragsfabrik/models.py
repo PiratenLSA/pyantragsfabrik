@@ -35,6 +35,12 @@ class Application(models.Model):
     def __str__(self):
         return self.title
 
+    def status_name(self):
+        for st in Application.STATUS_CHOICES:
+            if st[0] == self.status:
+                return st[1]
+        return None
+
 
 class LQFBInitiative(models.Model):
     antrag = models.ForeignKey(Application)

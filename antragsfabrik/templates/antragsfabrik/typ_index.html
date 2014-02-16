@@ -1,0 +1,28 @@
+{% extends "antragsfabrik/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    {% if appl_list %}
+        <h2>{{ typ.name }}</h2>
+
+        {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if appl_list.has_previous %}
+                    <a href="{% url 'typ_index_page' typ.id appl_list.previous_page_number %}">vorherige Seite</a> |
+                {% endif %}
+
+                <span class="current">
+                    Seite {{ appl_list.number }} von {{ appl_list.paginator.num_pages }}
+                </span>
+
+                {% if appl_list.has_next %}
+                    | <a href="{% url 'typ_index_page' typ.id appl_list.next_page_number %}">nächste Seite</a>
+                {% endif %}
+            </span>
+        </div>
+    {% else %}
+        <p>No applications are available.</p>
+    {% endif %}
+{% endblock %}

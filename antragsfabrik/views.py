@@ -1,13 +1,29 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator, EmptyPage
 
-from antragsfabrik.models import Application, LQFBInitiative
+from antragsfabrik.models import Application, LQFBInitiative, Type
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm
 
 
 def index(request):
-    latest_application_list = Application.objects.all().order_by('-submitted')[:5]
-    context = {'latest_application_list': latest_application_list}
+    applications = dict()
+    for typ in Type.objects.all().order_by('name'):
+        applications[typ.name] = Application.objects.filter(typ=typ).order_by('-submitted')[:10]
+    print(applications)
+    context = {'applications': applications}
     return render(request, 'antragsfabrik/index.html', context)
+
+
+def typ_index(request, typ_id, page=1):
+    typ = get_object_or_404(Type, pk=typ_id)
+    appl_list = Application.objects.filter(typ=typ).order_by('-submitted')
+    paginator = Paginator(appl_list, 20)
+    try:
+        appl_list2 = paginator.page(page)
+    except EmptyPage:
+        appl_list2 = paginator.page(paginator.num_pages)
+    context = {'typ': typ, 'appl_list': appl_list2}
+    return render(request, 'antragsfabrik/typ_index.html', context)
 
 
 def detail(request, application_id):
