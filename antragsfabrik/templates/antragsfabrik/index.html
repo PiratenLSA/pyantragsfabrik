@@ -1,10 +1,11 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
+{% load antragsfabrik_extras %}
 
 {% block content %}
     {% if applications %}
-        {% for typ, appl_list in applications.items %}
-            <h2>{{ typ }}</h2>
+        {% for typid, appl_list in applications.items %}
+            <h2><a href="{% url 'typ_index' typid %}">{{ types|key:typid }}</a></h2>
 
             {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
         {% endfor %}

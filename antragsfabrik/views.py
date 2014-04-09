@@ -6,11 +6,13 @@ from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm
 
 
 def index(request):
+    types = dict()
     applications = dict()
     for typ in Type.objects.all().order_by('name'):
-        applications[typ.name] = Application.objects.filter(typ=typ).order_by('-submitted')[:10]
-    print(applications)
-    context = {'applications': applications}
+        types[typ.id] = typ.name
+        applications[typ.id] = Application.objects.filter(typ=typ).order_by('-submitted')[:10]
+
+    context = {'types': types, 'applications': applications}
     return render(request, 'antragsfabrik/index.html', context)
 
 
