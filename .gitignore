@@ -57,3 +57,5 @@ docs/_build/
 
 # DB
 *.sqlite3
+
+production_settings.py

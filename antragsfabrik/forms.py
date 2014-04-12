@@ -1,7 +1,7 @@
 from django import forms
 from django.forms import ModelForm
 
-from antragsfabrik.models import Application, LQFBInitiative
+from antragsfabrik.models import Application, LQFBInitiative, UserProfile
 
 
 class ApplicationForm(ModelForm):
@@ -24,3 +24,10 @@ class LQFBInitiativeForm(ModelForm):
         model = LQFBInitiative
         fields = ['url', 'title']
         labels = {'url': 'Link', 'title': 'Titel der Initiative'}
+
+
+class UserProfileForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['display_name']
+        labels = {'display_name': 'Anzeigename'}

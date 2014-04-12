@@ -1,0 +1,32 @@
+{% extends "antragsfabrik/base.html" %}
+
+{% load account %}
+
+{% block content %}
+    <h2>Profil</h2>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'profile_edit' %}" method="post">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <td><strong>Loginname:</strong></td>
+                <td>{% user_display user %}</td>
+            </tr>
+            {{ profileform.as_table }}
+            <tr>
+                <td></td>
+                <td><input type="submit" value="Speichern"/></td>
+            </tr>
+        </table>
+    </form>
+
+    <h2>Einstellungen</h2>
+
+    <ul>
+        <li><a href="{% url 'account_email' %}">E-Mail Adresse ändern</a></li>
+        <li><a href="{% url 'account_change_password' %}">Passwort ändern</a></li>
+        <li><a href="{% url 'socialaccount_connections' %}">Verbindungen ändern</a></li>
+    </ul>
+{% endblock %}

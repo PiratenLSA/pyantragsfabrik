@@ -10,7 +10,7 @@
             <td>{{ application.number }}</td>
             <td><a href="{% url 'detail' application.id %}">{{ application.title }}</a></td>
             <td>{{ application.status_name }}</td>
-            <td>{{ application.author }}</td>
+            <td>{{ application.author.display_name }}</td>
         </tr>
     {% endfor %}
 </table>

@@ -52,3 +52,12 @@ class LQFBInitiative(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class UserProfile(models.Model):
+    user = models.ForeignKey(User, unique=True)
+    display_name = models.CharField(max_length=20, blank=True)
+
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+User.display_name = property(lambda u: u.profile.display_name if len(u.profile.display_name) > 0 else u.username)

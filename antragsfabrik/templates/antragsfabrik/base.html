@@ -17,8 +17,15 @@
 <div id="c_wrap" class="wrapper">
     <nav>
         <ul>
-            <li><a href="{% url 'index' %}">Anträge</a></li>
-            <li><a href="{% url 'create' %}">Antrag einreichen</a></li>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'appl_create' %}">Antrag einreichen</a></li>
+                <li><a href="{% url 'profile_edit' %}">Profil</a></li>
+                <li><a href="{% url 'account_logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'account_signup' %}">Registrieren</a></li>
+                <li><a href="{% url 'account_login' %}">Login</a></li>
+            {% endif %}
         </ul>
     </nav>
 

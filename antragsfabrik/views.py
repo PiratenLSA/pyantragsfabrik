@@ -1,8 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
+from django.contrib.auth.decorators import login_required
 
 from antragsfabrik.models import Application, LQFBInitiative, Type
-from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm
+from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
 
 
 def index(request):
@@ -28,12 +29,13 @@ def typ_index(request, typ_id, page=1):
     return render(request, 'antragsfabrik/typ_index.html', context)
 
 
-def detail(request, application_id):
+def appl_detail(request, application_id):
     application = get_object_or_404(Application, pk=application_id)
     return render(request, 'antragsfabrik/detail.html', {'application': application})
 
 
-def create(request):
+@login_required
+def appl_create(request):
     if request.method == 'POST':
         applform = ApplicationForm(request.POST, prefix='appl')
         lqfbform = LQFBInitiativeForm(request.POST, prefix='lqfb')
@@ -59,3 +61,16 @@ def create(request):
         lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
     return render(request, 'antragsfabrik/create.html', {'applform': applform, 'lqfbform': lqfbform})
+
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        profileform = UserProfileForm(request.POST, instance=request.user.profile, prefix='userprofile')
+
+        if profileform.is_valid():
+            profileform.save()
+    else:
+        profileform = UserProfileForm(instance=request.user.profile, prefix='userprofile')
+
+    return render(request, 'antragsfabrik/profile_edit.html', {'profileform': profileform})

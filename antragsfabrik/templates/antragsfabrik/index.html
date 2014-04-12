@@ -5,9 +5,11 @@
 {% block content %}
     {% if applications %}
         {% for typid, appl_list in applications.items %}
-            <h2><a href="{% url 'typ_index' typid %}">{{ types|key:typid }}</a></h2>
+            {% if appl_list|length > 0 %}
+                <h2><a href="{% url 'typ_index' typid %}">{{ types|key:typid }}</a></h2>
 
-            {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
+                {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
+            {% endif %}
         {% endfor %}
     {% else %}
         <p>No applications are available.</p>
