@@ -1,6 +1,16 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
 
+{% block subnav %}
+    {% if application.author == user %}
+        <ul>
+            <li><a href="{% url 'appl_edit' application.id %}">Antrag bearbeiten</a></li>
+            <li><a href="">Antrag einreichen</a></li>
+            <li><a href="">Antrag zurückziehen</a></li>
+        </ul>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h2>
         {{ application.typ }}: {% if application.number %}<strong>{{ application.number }}:</strong>

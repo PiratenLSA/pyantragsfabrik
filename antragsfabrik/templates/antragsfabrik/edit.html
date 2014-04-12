@@ -1,20 +1,20 @@
 {% extends "antragsfabrik/base.html" %}
 
 {% block content %}
-    <h2>Antrag erstellen</h2>
+    <h2>Antrag bearbeiten</h2>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="{% url 'appl_create' %}" method="post">
+    <form action="{% url 'appl_edit' application.id %}" method="post">
         {% csrf_token %}
         <table id="createappl">
             {{ applform.as_table }}
+            <tr>
+                <td></td>
+                <td>
+                    <button type="submit">Antrag speichern</button>
+                </td>
+            </tr>
         </table>
-
-        <h3>LQFB Initiative</h3>
-        <table>
-            {{ lqfbform.as_table }}
-        </table>
-        <input type="submit" value="Antrag speichern"/>
     </form>
 {% endblock %}

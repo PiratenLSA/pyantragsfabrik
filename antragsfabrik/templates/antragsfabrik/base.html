@@ -15,7 +15,7 @@
 </header>
 
 <div id="c_wrap" class="wrapper">
-    <nav>
+    <nav id="mainnav">
         <ul>
             <li><a href="{% url 'index' %}">Home</a></li>
             {% if user.is_authenticated %}
@@ -27,6 +27,10 @@
                 <li><a href="{% url 'account_login' %}">Login</a></li>
             {% endif %}
         </ul>
+    </nav>
+
+    <nav id="subnav">
+        {% block subnav %}{% endblock %}
     </nav>
 
     <div class="filler"></div>

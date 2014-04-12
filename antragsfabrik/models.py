@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.utils.translation import ugettext as _
 
 class Type(models.Model):
     name = models.CharField(max_length=200)
@@ -17,7 +17,7 @@ class Application(models.Model):
     CANCELED = 'C'
 
     STATUS_CHOICES = (
-        (DRAFT, 'Draft'), (SUBMITTED, 'Submitted'), (CANCELED, 'Canceled'),
+        (DRAFT, _('Draft')), (SUBMITTED, _('Submitted')), (CANCELED, _('Canceled')),
     )
 
     number = models.CharField(max_length=10, editable=False)

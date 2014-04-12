@@ -8,7 +8,7 @@
     {% for application in appl_list %}
         <tr>
             <td>{{ application.number }}</td>
-            <td><a href="{% url 'detail' application.id %}">{{ application.title }}</a></td>
+            <td><a href="{% url 'appl_detail' application.id %}">{{ application.title }}</a></td>
             <td>{{ application.status_name }}</td>
             <td>{{ application.author.display_name }}</td>
         </tr>

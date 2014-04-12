@@ -15,8 +15,8 @@ class ApplicationForm(ModelForm):
     class Meta:
         model = Application
         fields = ['typ', 'title', 'text', 'reasons', 'discussion']
-        labels = {'typ': 'Antragstyp', 'title': 'Titel', 'text': 'Antragstext', 'reasons': 'Antragsbegründung',
-                  'discussion': 'Link zur Diskussionsseite'}
+        labels = {'typ': 'Antragstyp', 'title': 'Titel', 'text': 'Antragstext',
+                  'reasons': 'Antragsbegründung', 'discussion': 'Link zur Diskussionsseite'}
 
 
 class LQFBInitiativeForm(ModelForm):

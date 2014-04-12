@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 
 from antragsfabrik.models import Application, LQFBInitiative, Type
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
@@ -31,7 +32,7 @@ def typ_index(request, typ_id, page=1):
 
 def appl_detail(request, application_id):
     application = get_object_or_404(Application, pk=application_id)
-    return render(request, 'antragsfabrik/detail.html', {'application': application})
+    return render(request, 'antragsfabrik/detail.html', {'application': application, 'user': request.user})
 
 
 @login_required
@@ -52,7 +53,7 @@ def appl_create(request):
                 lqfbini.antrag = appl
                 lqfbini.save()
 
-            return redirect('detail', application_id=appl.id)
+            return redirect('appl_detail', application_id=appl.id)
 
         if not lqfbform.has_changed():
             lqfbform = LQFBInitiativeForm(prefix='lqfb')
@@ -61,6 +62,26 @@ def appl_create(request):
         lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
     return render(request, 'antragsfabrik/create.html', {'applform': applform, 'lqfbform': lqfbform})
+
+
+@login_required
+def appl_edit(request, application_id):
+    application = get_object_or_404(Application, pk=application_id)
+
+    if application.author != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        applform = ApplicationForm(request.POST, instance=application, prefix='appl')
+
+        if applform.is_valid():
+            appl = applform.save()
+            return redirect('appl_detail', application_id=appl.id)
+    else:
+        applform = ApplicationForm(instance=application, prefix='appl')
+        #lqfbform = LQFBInitiativeForm(prefix='lqfb')
+
+    return render(request, 'antragsfabrik/edit.html', {'applform': applform, 'application': application})
 
 
 @login_required
