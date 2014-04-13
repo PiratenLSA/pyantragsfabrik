@@ -75,13 +75,37 @@ def appl_edit(request, application_id):
         applform = ApplicationForm(request.POST, instance=application, prefix='appl')
 
         if applform.is_valid():
-            appl = applform.save()
-            return redirect('appl_detail', application_id=appl.id)
+            applform.save()
+            return redirect('appl_detail', application_id=application_id)
     else:
         applform = ApplicationForm(instance=application, prefix='appl')
         #lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
     return render(request, 'antragsfabrik/edit.html', {'applform': applform, 'application': application})
+
+
+@login_required
+def appl_submit(request, application_id):
+    return appl_changestatus(request, application_id, Application.SUBMITTED)
+
+
+@login_required
+def appl_cancel(request, application_id):
+    return appl_changestatus(request, application_id, Application.CANCELED)
+
+
+def appl_changestatus(request, application_id, next_status):
+    application = get_object_or_404(Application, pk=application_id)
+
+    if application.author != request.user:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        application.status = next_status
+        application.save()
+        return redirect('appl_detail', application_id=application_id)
+
+    return render(request, 'antragsfabrik/changestatus.html', {'application': application, 'next_status': next_status})
 
 
 @login_required

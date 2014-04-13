@@ -1,0 +1,11 @@
+{% if application.author == user %}
+    <ul>
+        {% if application.status != 'C' %}
+            <li><a href="{% url 'appl_edit' application.id %}">Antrag bearbeiten</a></li>
+        {% endif %}
+        {% if application.status == 'D' %}
+            <li><a href="{% url 'appl_submit' application.id %}">Antrag einreichen</a></li>
+            <li><a href="{% url 'appl_cancel' application.id %}">Antrag zurückziehen</a></li>
+        {% endif %}
+    </ul>
+{% endif %}

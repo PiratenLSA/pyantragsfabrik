@@ -1,0 +1,23 @@
+{% extends "antragsfabrik/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    {% if next_status == 'S' %}
+        <h2>Antrag einreichen</h2>
+
+        <p>Wenn du auf den Button unten klickst, wird der Antrag eingereicht. Danach kannst du ihn nicht mehr
+            zurückziehen. Änderungen an dem Antrag sind aber bis zur gegebenfalls vorhandenen Frist noch möglich.</p>
+    {% elif next_status == 'C' %}
+        <h2>Antrag zurückziehen</h2>
+
+        <p>Wenn du auf den Button unten klickst, wird der Antrag zurückgezogen. Danach kannst du den Antrag nicht mehr
+            bearbeiten oder einreichen.</p>
+    {% endif %}
+
+    <form action="
+            {% if next_status == 'S' %}{% url 'appl_submit' application.id %}{% elif next_status == 'C' %}{% url 'appl_cancel' application.id %}{% endif %}"
+          method="post">
+        {% csrf_token %}
+        <button type="submit">Antragsstatus ändern</button>
+    </form>
+{% endblock %}

@@ -110,6 +110,6 @@ ACCOUNT_USERNAME_BLACKLIST = ['admin', 'root']
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/'
 
 AUTH_PROFILE_MODULE = "antragsfabrik.UserProfile"
