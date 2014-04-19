@@ -78,11 +78,30 @@ h2.appl-title {
 
 .appl-create input,
 .appl-edit input,
-.appl-create textarea,
-.appl-edit textarea,
 .appl-create select,
 .appl-edit select,
 .appl-create button,
 .appl-edit button {
     width: 800px;
+}
+
+.editor-toolbar,
+.editor-statusbar {
+    border: 1px solid #CCC;
+}
+
+.editor-toolbar {
+    width: 800px;
+}
+
+.editor-statusbar {
+    width: 780px;
+}
+
+.CodeMirror {
+    border-left: 1px solid #CCC;
+    border-right: 1px solid #CCC;
+    height: 300px;
+    width: 800px;
+    background-color: #F8F8F8;
 }

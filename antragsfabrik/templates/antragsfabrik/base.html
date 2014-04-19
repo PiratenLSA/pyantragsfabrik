@@ -4,8 +4,32 @@
 <html lang="de">
 <head>
     <title>{% block title %}Antragsfabrik{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static 'antragsfabrik/editor/editor.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/antragsfabrik.css' %}"/>
+
+    <script type="text/javascript" src="{% static 'antragsfabrik/javascript/jquery-1.11.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'antragsfabrik/editor/marked.js' %}"></script>
+    <script type="text/javascript" src="{% static 'antragsfabrik/editor/editor.js' %}"></script>
+
+    <script language="javascript">
+        $.fn.editorify = function (options) {
+            options = options || {};
+            return this.each(function (index, element) {
+              var editor;
+              options.element = element;
+              editor = new Editor(options);
+              $(element).data('editor', editor);
+              editor.render();
+            });
+        };
+
+        $(document).ready(function() {
+            $('textarea.markdown').editorify();
+        });
+    </script>
+
     <meta charset="UTF-8"/>
 </head>
 <body>

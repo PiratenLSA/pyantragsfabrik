@@ -12,8 +12,8 @@ class ApplicationForm(ModelForm):
                   'reasons': 'Antragsbegründung', 'discussion': 'Link zur Diskussionsseite'}
         widgets = {
             'title': TextInput(attrs={'placeholder': 'Titel'}),
-            'text': Textarea(attrs={'placeholder': 'Antragstext'}),
-            'reasons': Textarea(attrs={'placeholder': 'Begründung'}),
+            'text': Textarea(attrs={'placeholder': 'Antragstext', 'class': 'markdown'}),
+            'reasons': Textarea(attrs={'placeholder': 'Begründung', 'class': 'markdown'}),
             'discussion': TextInput(attrs={'placeholder': 'Link zur Diskussionsseite'}),
         }
 
