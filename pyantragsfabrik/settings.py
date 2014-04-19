@@ -45,6 +45,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'allauth.socialaccount.providers.openid',
     'allauth.socialaccount.providers.twitter',
+    'markdown_deux',
 )
 
 MIDDLEWARE_CLASSES = (

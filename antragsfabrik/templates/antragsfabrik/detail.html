@@ -1,5 +1,6 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
+{% load markdown_deux_tags %}
 
 {% block subnav %}
     {% include "antragsfabrik/appl_subnav.html" with application=application user=user only %}
@@ -14,11 +15,11 @@
 
     <div class="appl-main-box">
         <div class="appl-text">
-            {{ application.text }}
+            {{ application.text|markdown }}
         </div>
 
         <div class="appl-label">Begründung</div>
-        <div class="appl-reasons">{{ application.reasons }}</div>
+        <div class="appl-reasons">{{ application.reasons|markdown }}</div>
 
         {% if application.lqfbinitiative_set.all %}
             <div class="appl-label">
