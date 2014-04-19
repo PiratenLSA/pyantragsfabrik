@@ -5,16 +5,12 @@
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="{% url 'appl_create' %}" method="post">
+    <form action="{% url 'appl_create' %}" method="post" class="appl-create">
         {% csrf_token %}
-        <table id="createappl">
-            {{ applform.as_table }}
-        </table>
+        {{ applform.as_p }}
 
         <h3>LQFB Initiative</h3>
-        <table>
-            {{ lqfbform.as_table }}
-        </table>
-        <input type="submit" value="Antrag speichern"/>
+        {{ lqfbform.as_p }}
+        <button type="submit">Antrag speichern</button>
     </form>
 {% endblock %}

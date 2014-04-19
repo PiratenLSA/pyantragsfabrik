@@ -6,7 +6,6 @@
     <title>{% block title %}Antragsfabrik{% endblock %}</title>
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/antragsfabrik.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/create.css' %}"/>
     <meta charset="UTF-8"/>
 </head>
 <body>
@@ -14,27 +13,25 @@
     <h1>Antragsfabrik</h1>
 </header>
 
+<nav id="mainnav">
+    <ul>
+        <li><a href="{% url 'index' %}">Home</a></li>
+        {% if user.is_authenticated %}
+            <li><a href="{% url 'appl_create' %}">Antrag einreichen</a></li>
+            <li><a href="{% url 'profile_edit' %}">Profil</a></li>
+            <li><a href="{% url 'account_logout' %}">Logout</a></li>
+        {% else %}
+            <li><a href="{% url 'account_signup' %}">Registrieren</a></li>
+            <li><a href="{% url 'account_login' %}">Login</a></li>
+        {% endif %}
+    </ul>
+</nav>
+
+<nav id="subnav">
+    {% block subnav %}{% endblock %}
+</nav>
+
 <div id="c_wrap" class="wrapper">
-    <nav id="mainnav">
-        <ul>
-            <li><a href="{% url 'index' %}">Home</a></li>
-            {% if user.is_authenticated %}
-                <li><a href="{% url 'appl_create' %}">Antrag einreichen</a></li>
-                <li><a href="{% url 'profile_edit' %}">Profil</a></li>
-                <li><a href="{% url 'account_logout' %}">Logout</a></li>
-            {% else %}
-                <li><a href="{% url 'account_signup' %}">Registrieren</a></li>
-                <li><a href="{% url 'account_login' %}">Login</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-
-    <nav id="subnav">
-        {% block subnav %}{% endblock %}
-    </nav>
-
-    <div class="filler"></div>
-
     <div class="inner">
         {% block content %}{% endblock %}
     </div>

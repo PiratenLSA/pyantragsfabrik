@@ -1,20 +1,19 @@
 {% extends "antragsfabrik/base.html" %}
 
+{% block subnav %}
+    <ul>
+        <li><a href="{% url 'appl_detail' application.id %}">zurück zum Antrag</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
     <h2>Antrag bearbeiten</h2>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
-    <form action="{% url 'appl_edit' application.id %}" method="post">
+    <form action="{% url 'appl_edit' application.id %}" method="post" class="appl-edit">
         {% csrf_token %}
-        <table id="createappl">
-            {{ applform.as_table }}
-            <tr>
-                <td></td>
-                <td>
-                    <button type="submit">Antrag speichern</button>
-                </td>
-            </tr>
-        </table>
+        {{ applform.as_p }}
+        <button type="submit">Antrag speichern</button>
     </form>
 {% endblock %}

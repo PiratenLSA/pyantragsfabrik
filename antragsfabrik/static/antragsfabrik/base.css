@@ -1,10 +1,10 @@
 body {
-    background: url('images/bg-tags.png') repeat fixed -20% top #F80;
+    background-color: white;
     font-family: 'Source Sans Pro', 'sourcesanspro', sans-serif;
     font-size: 15px;
     line-height: 1.6;
     color: #242424;
-    padding-top: 10px;
+    margin: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -32,10 +32,9 @@ ul {
  */
 
 header {
-    width: 1200px;
-    margin: 0 auto;
     height: 140px;
-    margin-bottom: 20px;
+    background: #EEE url('images/darkwave.png');
+    padding: 20px;
 }
 
 header #logo {
@@ -46,7 +45,7 @@ header #logo {
 
 header h1 {
     font-size: 45px;
-    color: #fff;
+    color: black;
     float: left;
 }
 
@@ -55,13 +54,11 @@ header h1 {
  */
 
 .wrapper {
-    width: 1200px;
-    margin: 0 auto;
+    max-width: 1400px;
+    margin: 20px auto;
 }
 
 #c_wrap {
-    background: #fff;
-    margin-top: 10px;
     padding: 15px 20px;
 }
 
@@ -73,7 +70,7 @@ nav ul {
     display: block;
     margin: 0;
     padding: 15px;
-    background: #444;
+    background: #333;
     color: #fff;
     font-size: 17px;
 }
@@ -90,12 +87,35 @@ nav ul li a {
 }
 
 nav#subnav ul {
-    margin-top: 10px;
     padding: 5px 15px;
+    font-size: 13px;
+    background-color: #444;
+}
+
+input,
+textarea,
+select,
+button {
+    border: 1px solid #CCC;
+    background-color: #F8F8F8;
+}
+
+input {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+textarea {
+    padding: 5px;
+}
+
+label {
+    display: block;
+    font-weight: bold;
     font-size: 13px;
 }
 
-.filler {
-    height: 1em;
-    width: 100%;
+ul.errorlist {
+    padding-left: 15px;
+    font-size: 13px;
 }

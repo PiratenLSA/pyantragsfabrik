@@ -6,91 +6,39 @@
 {% endblock %}
 
 {% block content %}
-    <h2>
-        {{ application.typ }}: {% if application.number %}<strong>{{ application.number }}:</strong>
-        &nbsp;{% endif %}{{ application.title }}
+    <h2 class="appl-title">
+        {% if application.number %}<strong>{{ application.number }}:</strong>
+            &nbsp;{% endif %}{{ application.title }}
     </h2>
-
-    <div class="appl-pre-box">
-        <table>
-            <tr>
-                <td>
-                    {% if application.status == 'S' %}
-                        <img src="{% static "antragsfabrik/images/80px-Pictogram_voting_wait_blue.svg.png" %}"
-                             width="80"
-                             alt="submitted"/>
-                    {% else %}
-                        <img src="{% static "antragsfabrik/images/80px-Tango-preferences-system.svg.png" %}" width="80"
-                             alt="draft"/>
-                    {% endif %}
-                </td>
-
-                <td>
-                    <strong>Dies ist ein {% if application.status == 'S' %}<em>eingereichter {{ application.typ }}
-                        </em>{% else %}
-                        {{ application.typ }} <span class="draft-color">(im Entwurfsstadium)</span>{% endif %} für den
-                        Landesparteitag.</strong><br/><br/>
-
-                    {% if application.status == 'S' %}
-                        Bitte diskutiere den Antrag, und bekunde Deine Unterstützung oder Ablehnung auf dieser Seite,
-                        bzw., falls möglich, in LiquidFeedback.
-                        <span class="submitted-color">Der Antragstext darf nicht mehr verändert werden!</span>
-                    {% else %}
-                        Bitte hilf mit diesen Antrag zu verbessern und zu erweitern. Bitte bekunde auch Deine
-                        Unterstützung oder Ablehnung auf dieser Seite, bzw., falls möglich, in LiquidFeedback.
-                    {% endif %}
-                </td>
-            </tr>
-        </table>
-    </div>
+    <div class="appl-subtitle">{{ application.typ }}, {{ application.status_name }}</div>
 
     <div class="appl-main-box">
-        <div class="appl-info-box">
-            <div class="label">
-                Antragsteller
-            </div>
-            {{ application.author.display_name }}
+        <div class="appl-text">
+            {{ application.text }}
+        </div>
 
-            <div class="label">
-                Antragstyp
-            </div>
-            {{ application.typ }}
+        <div class="appl-label">Begründung</div>
+        <div class="appl-reasons">{{ application.reasons }}</div>
 
-            <div class="label">
+        {% if application.lqfbinitiative_set.all %}
+            <div class="appl-label">
                 LiquidFeedback
             </div>
-            <ul>
+            <ul class="appl-lqfb">
                 {% for ini in application.lqfbinitiative_set.all %}
                     <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
                 {% endfor %}
             </ul>
+        {% endif %}
 
-            {% if application.discussion %}
-                <div class="label">
-                    Diskussion
-                </div>
-                <ul>
-                    <li><a href="{{ application.discussion }}">{{ application.discussion }}</a></li>
-                </ul>
-            {% endif %}
-
-            <div class="label">
-                Datum der letzten Änderung
-            </div>
-            {{ application.updated }}
+        <div class="appl-footer">
+            <ul>
+                <li>von {{ application.author.display_name }}</li>
+                {% if application.discussion %}
+                    <li><a href="{{ application.discussion }}">zur Diskussion</a></li>
+                {% endif %}
+                <li>aktualisiert: {{ application.updated }}</li>
+            </ul>
         </div>
-
-        <div class="label">
-            Antragstext
-        </div>
-        <div class="text">
-            {{ application.text }}
-        </div>
-
-        <div class="label">
-            Antragsbegründung
-        </div>
-        {{ application.reasons }}
-        <div style="clear: both"></div>
     </div>
 {% endblock %}

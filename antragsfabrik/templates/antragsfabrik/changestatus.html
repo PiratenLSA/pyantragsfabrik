@@ -1,6 +1,12 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
 
+{% block subnav %}
+    <ul>
+        <li><a href="{% url 'appl_detail' application.id %}">zurück zum Antrag</a></li>
+    </ul>
+{% endblock %}
+
 {% block content %}
     {% if next_status == 'S' %}
         <h2>Antrag einreichen</h2>
