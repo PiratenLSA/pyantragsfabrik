@@ -68,7 +68,7 @@ def appl_create(request):
 def appl_edit(request, application_id):
     application = get_object_or_404(Application, pk=application_id)
 
-    if application.author != request.user:
+    if application.author != request.user or not application.changeable():
         raise PermissionDenied
 
     if request.method == 'POST':
@@ -79,6 +79,7 @@ def appl_edit(request, application_id):
             return redirect('appl_detail', application_id=application_id)
     else:
         applform = ApplicationForm(instance=application, prefix='appl')
+        # TODO: handle LQFB Initiatives
         #lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
     return render(request, 'antragsfabrik/edit.html', {'applform': applform, 'application': application})
@@ -98,6 +99,12 @@ def appl_changestatus(request, application_id, next_status):
     application = get_object_or_404(Application, pk=application_id)
 
     if application.author != request.user:
+        raise PermissionDenied
+
+    if next_status == Application.CANCELED and not application.cancelable():
+        raise PermissionDenied
+
+    if next_status == Application.SUBMITTED and not application.submittable():
         raise PermissionDenied
 
     if request.method == 'POST':
