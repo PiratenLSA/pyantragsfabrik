@@ -3,13 +3,12 @@
 {% load markdown_deux_tags %}
 
 {% block subnav %}
-    {% include "antragsfabrik/appl_subnav.html" with application=application user=user only %}
+    {% include "antragsfabrik/appl_subnav.html" with application=application user=user perms=perms only %}
 {% endblock %}
 
 {% block content %}
     <h2 class="appl-title">
-        {% if application.number %}<strong>{{ application.number }}:</strong>
-            &nbsp;{% endif %}{{ application.title }}
+        {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
     </h2>
     <div class="appl-subtitle">{{ application.typ }}, {{ application.status_name }}</div>
 

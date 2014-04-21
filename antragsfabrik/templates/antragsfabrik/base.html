@@ -41,7 +41,7 @@
     <ul>
         <li><a href="{% url 'index' %}">Home</a></li>
         {% if user.is_authenticated %}
-            <li><a href="{% url 'appl_create' %}">Antrag einreichen</a></li>
+            <li><a href="{% url 'appl_create' %}">Antrag erstellen</a></li>
             <li><a href="{% url 'profile_edit' %}">Profil</a></li>
             <li><a href="{% url 'account_logout' %}">Logout</a></li>
         {% else %}

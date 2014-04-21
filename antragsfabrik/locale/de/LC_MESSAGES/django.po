@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-12 19:17+0200\n"
+"POT-Creation-Date: 2014-04-21 13:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,14 +18,46 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: models.py:20
+#: models.py:23
 msgid "Draft"
 msgstr "Entwurf"
 
-#: models.py:20
+#: models.py:23
 msgid "Submitted"
 msgstr "Eingereicht"
 
-#: models.py:20
+#: models.py:23
 msgid "Canceled"
 msgstr "Zurückgezogen"
+
+#: models.py:34
+msgid "not proofed"
+msgstr "nicht überprüft"
+
+#: models.py:34
+msgid "no application"
+msgstr "kein Antrag"
+
+#: models.py:34
+msgid "major deficits"
+msgstr "große Mängel"
+
+#: models.py:35
+msgid "minor deficits"
+msgstr "kleine Mängel"
+
+#: models.py:35
+msgid "with suggestions for changing"
+msgstr "mit Empfehlungen zur Änderung"
+
+#: models.py:36
+msgid "without complaints"
+msgstr "keine Beanstandungen"
+
+#: models.py:76
+msgid "Can change proof status of the application."
+msgstr "Kann den Überprüfungsstatus eines Antrags ändern."
+
+#: models.py:77
+msgid "Can set application number."
+msgstr "Kann die Antragsnummer setzen."

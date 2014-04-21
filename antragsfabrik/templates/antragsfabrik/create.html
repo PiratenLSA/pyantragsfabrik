@@ -3,6 +3,28 @@
 {% block content %}
     <h2>Antrag erstellen</h2>
 
+    <div style="max-width: 800px;">
+        <p>
+            Hier kannst du einen Antrag erstellen. Wenn du diesen erstellt hast, dann ist er noch
+            nicht eingereicht. Dies musst du dann noch machen. Bitte beachte, dass einige Antragstypen eine
+            Einreichungsfrist haben. Wenn diese abgelaufen ist, dann kann der Antrag nicht mehr einegreicht werden bzw.
+            wenn er bereits eingereicht ist, nicht mehr verändert werden.
+        </p>
+
+        <p>
+            <strong>Antragsfirsten:</strong>
+        </p>
+
+        <ul>
+            {% for type in types_wsd %}
+                <li>{{ type.name }}: {{ type.submission_date|date:"d.m.Y, H:i" }} Uhr</li>
+            {% empty %}
+                <li>kein Antragstyp hat eine Antragsfrist</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
 
     <form action="{% url 'appl_create' %}" method="post" class="appl-create">

@@ -1,5 +1,5 @@
-{% if application.author == user %}
-    <ul>
+<ul>
+    {% if application.author == user %}
         {% if application.changeable %}
             <li><a href="{% url 'appl_edit' application.id %}">Antrag bearbeiten</a></li>
         {% endif %}
@@ -9,5 +9,8 @@
         {% if application.cancelable %}
             <li><a href="{% url 'appl_cancel' application.id %}">Antrag zurückziehen</a></li>
         {% endif %}
-    </ul>
-{% endif %}
+    {% endif %}
+    {% if application.is_submitted and not application.number and perms.antragsfabrik.set_appl_number %}
+        <li><a href="{% url 'appl_set_number' application.id %}">Antragsnummer setzen</a></li>
+    {% endif %}
+</ul>

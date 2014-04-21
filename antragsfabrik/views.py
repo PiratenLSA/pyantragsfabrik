@@ -1,6 +1,7 @@
+from django.utils.timezone import now
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 
 from antragsfabrik.models import Application, LQFBInitiative, Type
@@ -12,7 +13,8 @@ def index(request):
     applications = dict()
     for typ in Type.objects.all().order_by('name'):
         types[typ.id] = typ.name
-        applications[typ.id] = Application.objects.filter(typ=typ).order_by('-submitted')[:10]
+        applications[typ.id] = Application.objects.filter(typ=typ).exclude(status=Application.CANCELED).order_by(
+            '-submitted')[:10]
 
     context = {'types': types, 'applications': applications}
     return render(request, 'antragsfabrik/index.html', context)
@@ -61,7 +63,11 @@ def appl_create(request):
         applform = ApplicationForm(prefix='appl')
         lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
-    return render(request, 'antragsfabrik/create.html', {'applform': applform, 'lqfbform': lqfbform})
+    # wsd = with submission date - haha, to long
+    types_wsd = Type.objects.exclude(submission_date__isnull=True)
+
+    return render(request, 'antragsfabrik/create.html',
+                  {'applform': applform, 'lqfbform': lqfbform, 'types_wsd': types_wsd})
 
 
 @login_required
@@ -108,11 +114,28 @@ def appl_changestatus(request, application_id, next_status):
         raise PermissionDenied
 
     if request.method == 'POST':
+        if next_status == Application.SUBMITTED:
+            application.submitted = now()
+
         application.status = next_status
         application.save()
         return redirect('appl_detail', application_id=application_id)
 
     return render(request, 'antragsfabrik/changestatus.html', {'application': application, 'next_status': next_status})
+
+
+@permission_required('antragsfabrik.set_appl_number')
+def appl_set_number(request, application_id):
+    application = get_object_or_404(Application, pk=application_id)
+
+    if application.status != Application.SUBMITTED:
+        raise PermissionDenied
+
+    if request.method == 'POST':
+        application.set_number()
+        return redirect('appl_detail', application_id=application_id)
+
+    return render(request, 'antragsfabrik/setnumber.html', {'application': application})
 
 
 @login_required

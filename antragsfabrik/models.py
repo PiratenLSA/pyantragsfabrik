@@ -31,9 +31,9 @@ class Application(models.Model):
     OK = '9'
 
     PROOFED_CHOICES = (
-        (NOT_PROOFED, _('nicht geprüft')), (NOAPPL, _('kein Antrag')), (MAJOR_DEFICITS, _('große Mängel')),
-        (MINOR_DEFICITS, _('kleine Mängel')), (SUGGESTIONS, _('Empfehlungen zur Änderung')),
-        (SUGGESTIONS, _('keine Beanstandungen'))
+        (NOT_PROOFED, _('not proofed')), (NOAPPL, _('no application')), (MAJOR_DEFICITS, _('major deficits')),
+        (MINOR_DEFICITS, _('minor deficits')), (SUGGESTIONS, _('with suggestions for changing')),
+        (OK, _('without complaints'))
     )
 
     number = models.CharField(max_length=10, editable=False)
@@ -67,9 +67,24 @@ class Application(models.Model):
     def submittable(self):
         return self.status == Application.DRAFT and self.typ.submission_date > now()
 
+    def is_submitted(self):
+        return self.status == Application.SUBMITTED
+
     def changeable(self):
         return self.status == Application.DRAFT or (
             self.status == Application.SUBMITTED and self.typ.submission_date > now())
+
+    def set_number(self):
+        self.typ.last_number += 1
+        self.typ.save()
+        self.number = self.typ.prefix + str(self.typ.last_number)
+        self.save()
+
+    class Meta:
+        permissions = (
+            ('proof_appl', _('Can change proof status of the application.')),
+            ('set_appl_number', _('Can set application number.'))
+        )
 
 
 class LQFBInitiative(models.Model):

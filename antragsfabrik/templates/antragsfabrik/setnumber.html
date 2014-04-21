@@ -1,0 +1,20 @@
+{% extends "antragsfabrik/base.html" %}
+{% load staticfiles %}
+
+{% block subnav %}
+    <ul>
+        <li><a href="{% url 'appl_detail' application.id %}">zurück zum Antrag</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h2>Antragsnummer setzen</h2>
+
+    <p>Wenn du auf den Button unten klickst, wird dem Antrag automatisch eine Antragsnummer zugewiesen. Sollte dies ein
+        Troll-/Spamantrag sein, solltest du dies nicht tun.</p>
+
+    <form action="{% url 'appl_set_number' application.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Antragsnummer setzen</button>
+    </form>
+{% endblock %}
