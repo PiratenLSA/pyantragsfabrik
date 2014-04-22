@@ -14,7 +14,7 @@ def index(request):
     for typ in Type.objects.all().order_by('name'):
         types[typ.id] = typ.name
         applications[typ.id] = Application.objects.filter(typ=typ).exclude(status=Application.CANCELED).order_by(
-            '-submitted')[:10]
+            '-created')
 
     context = {'types': types, 'applications': applications}
     return render(request, 'antragsfabrik/index.html', context)
@@ -28,7 +28,17 @@ def typ_index(request, typ_id, page=1):
         appl_list2 = paginator.page(page)
     except EmptyPage:
         appl_list2 = paginator.page(paginator.num_pages)
-    context = {'typ': typ, 'appl_list': appl_list2}
+
+    appl_list3 = dict()
+    for appl in appl_list2:
+        assert isinstance(appl, Application)
+        appl_list3.setdefault(appl.status, []).append(appl)
+
+    statuses = dict()
+    for status_key, status_name in Application.STATUS_CHOICES:
+        statuses[status_key] = status_name
+
+    context = {'typ': typ, 'appl_list': appl_list3, 'page': appl_list2, 'statuses': statuses}
     return render(request, 'antragsfabrik/typ_index.html', context)
 
 

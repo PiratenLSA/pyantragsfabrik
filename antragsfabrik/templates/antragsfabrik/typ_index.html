@@ -1,28 +1,34 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
+{% load antragsfabrik_extras %}
 
 {% block content %}
-    {% if appl_list %}
-        <h2>{{ typ.name }}</h2>
+    <h2>{{ typ.name }}</h2>
 
-        {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
+    {% if appl_list %}
+        {% for status_key, status_appl_list in appl_list.items %}
+            <h3>{{ statuses|key:status_key }}</h3>
+
+            {% include "antragsfabrik/appllist.html" with appl_list=status_appl_list only %}
+        {% endfor %}
 
         <div class="pagination">
-            <span class="step-links">
-                {% if appl_list.has_previous %}
-                    <a href="{% url 'typ_index_page' typ.id appl_list.previous_page_number %}">vorherige Seite</a> |
-                {% endif %}
+                <span class="step-links">
+                    {% if page.has_previous %}
+                        <a href="{% url 'typ_index_page' typ.id page.previous_page_number %}">{% blocktrans %}previous page{% endblocktrans %}</a> |
+                    {% endif %}
 
-                <span class="current">
-                    Seite {{ appl_list.number }} von {{ appl_list.paginator.num_pages }}
+                    <span class="current">
+                        {% blocktrans with number=page.number num_pages=page.paginator.num_pages %}page {{ number }} of {{ num_pages }}{% endblocktrans %}
+                    </span>
+
+                    {% if appl_list.has_next %}
+                        | <a href="{% url 'typ_index_page' typ.id page.next_page_number %}">{% blocktrans %}next page{% endblocktrans %}</a>
+                    {% endif %}
                 </span>
-
-                {% if appl_list.has_next %}
-                    | <a href="{% url 'typ_index_page' typ.id appl_list.next_page_number %}">nächste Seite</a>
-                {% endif %}
-            </span>
-        </div>
+            </div>
     {% else %}
-        <p>No applications are available.</p>
+        <p>{% trans 'No applications are submitted.' %}</p>
     {% endif %}
 {% endblock %}

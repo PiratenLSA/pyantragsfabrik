@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-21 13:57+0200\n"
+"POT-Creation-Date: 2014-04-21 17:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,10 +54,45 @@ msgstr "mit Empfehlungen zur Änderung"
 msgid "without complaints"
 msgstr "keine Beanstandungen"
 
-#: models.py:76
+#: models.py:85
 msgid "Can change proof status of the application."
 msgstr "Kann den Überprüfungsstatus eines Antrags ändern."
 
-#: models.py:77
+#: models.py:86
 msgid "Can set application number."
 msgstr "Kann die Antragsnummer setzen."
+
+#: templates/account/login.html:10 templates/account/login.html.py:27
+msgid "Sign In"
+msgstr ""
+
+#: templates/account/login.html:24
+msgid "Forgot Password?"
+msgstr ""
+
+#: templates/account/signup.html:7 templates/account/signup.html.py:22
+msgid "Sign Up"
+msgstr ""
+
+#: templates/account/signup.html:9
+#, python-format
+msgid ""
+"Already have an account? Then please <a href=\"%(login_url)s\">sign in</a>."
+msgstr ""
+
+#: templates/antragsfabrik/typ_index.html:14
+msgid "previous page"
+msgstr "vorherige Seite"
+
+#: templates/antragsfabrik/typ_index.html:18
+#, python-format
+msgid "page %(number)s of %(num_pages)s"
+msgstr "Seite %(number)s von %(num_pages)s"
+
+#: templates/antragsfabrik/typ_index.html:22
+msgid "next page"
+msgstr "nächste Seite"
+
+#: templates/antragsfabrik/typ_index.html:27
+msgid "No applications are submitted."
+msgstr "Es wurden keine Anträge eingereicht."
