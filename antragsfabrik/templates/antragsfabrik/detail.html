@@ -1,44 +1,20 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
-{% load markdown_deux_tags %}
 
 {% block subnav %}
     {% include "antragsfabrik/appl_subnav.html" with application=application user=user perms=perms only %}
 {% endblock %}
 
 {% block content %}
-    <h2 class="appl-title">
-        {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
-    </h2>
-    <div class="appl-subtitle">{{ application.typ }}, {{ application.status_name }}</div>
+    {% include "antragsfabrik/detail_mainpart.html" with application=application only %}
 
-    <div class="appl-main-box">
-        <div class="appl-text">
-            {{ application.text|markdown }}
-        </div>
-
-        <div class="appl-label">Begründung</div>
-        <div class="appl-reasons">{{ application.reasons|markdown }}</div>
-
-        {% if application.lqfbinitiative_set.all %}
-            <div class="appl-label">
-                LiquidFeedback
-            </div>
-            <ul class="appl-lqfb">
-                {% for ini in application.lqfbinitiative_set.all %}
-                    <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-
-        <div class="appl-footer">
-            <ul>
-                <li>von {{ application.author.display_name }}</li>
-                {% if application.discussion %}
-                    <li><a href="{{ application.discussion }}">zur Diskussion</a></li>
-                {% endif %}
-                <li>aktualisiert: {{ application.updated }}</li>
-            </ul>
-        </div>
+    <div class="appl-footer">
+        <ul>
+            <li>von {{ application.author.display_name }}</li>
+            {% if application.discussion %}
+                <li><a href="{{ application.discussion }}">zur Diskussion</a></li>
+            {% endif %}
+            <li>aktualisiert: {{ application.updated|date:"d.m.Y, H:i" }}</li>
+        </ul>
     </div>
 {% endblock %}

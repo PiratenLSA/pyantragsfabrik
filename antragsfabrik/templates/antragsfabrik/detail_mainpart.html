@@ -1,0 +1,26 @@
+{% load markdown_deux_tags %}
+
+<h2 class="appl-title">
+    {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
+</h2>
+<div class="appl-subtitle">{{ application.typ }}, {{ application.status_name }}</div>
+
+<div class="appl-main-box">
+    <div class="appl-text">
+        {{ application.text|markdown }}
+    </div>
+
+    <div class="appl-label">Begründung</div>
+    <div class="appl-reasons">{{ application.reasons|markdown }}</div>
+
+    {% if application.lqfbinitiative_set.all %}
+        <div class="appl-label">
+            LiquidFeedback
+        </div>
+        <ul class="appl-lqfb">
+            {% for ini in application.lqfbinitiative_set.all %}
+                <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>

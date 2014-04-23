@@ -7,6 +7,13 @@
 {% endblock %}
 
 {% block content %}
+    {% if preview %}
+        <p>Vorschau:</p>
+        <div class="appl-preview">
+            {% include "antragsfabrik/detail_mainpart.html" with application=preview only %}
+        </div>
+    {% endif %}
+
     <h2>Antrag bearbeiten</h2>
 
     {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
@@ -14,6 +21,7 @@
     <form action="{% url 'appl_edit' application.id %}" method="post" class="appl-edit">
         {% csrf_token %}
         {{ applform.as_p }}
-        <button type="submit">Antrag speichern</button>
+        <button type="submit" name="save">Antrag speichern</button>
+        <button type="submit" name="preview">Vorschau zeigen</button>
     </form>
 {% endblock %}

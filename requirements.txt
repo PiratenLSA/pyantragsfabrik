@@ -1,5 +1,6 @@
 django-markdown-deux
-Django==1.6.2
-django-allauth==0.16.1
+Django>=1.6.2
+django-allauth>=0.16.1
 django-simple-history
 South
+diff-match-patch

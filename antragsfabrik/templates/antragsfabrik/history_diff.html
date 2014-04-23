@@ -1,0 +1,31 @@
+{% extends "antragsfabrik/base.html" %}
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+{% load i18n %}
+
+{% block subnav %}
+    <ul>
+        <li><a href="{% url 'appl_detail' application.id %}">zurück zum Antrag</a></li>
+    <li><a href="{% url 'appl_history' application.id %}">Versionsgeschichte</a></li>
+    </ul>
+{% endblock %}
+
+{% block content %}
+    <h2>Versionsvergleich: {{ application.title }}</h2>
+
+    <p>Vergleich zwischen Version vom <strong>{{ revision1.history_date|date:"d.m.Y, H:i" }} Uhr</strong> und <strong>{{ revision2.history_date|date:"d.m.Y, H:i" }} Uhr</strong></p>
+
+    <div class="appl-main-box">
+        <h3>Antragstext</h3>
+
+        <div class="appl-text">
+            {{ text_diff|safe }}
+        </div>
+
+        <h3>Begründung</h3>
+
+        <div class="appl-reasons">
+            {{ reasons_diff|safe }}
+        </div>
+    </div>
+{% endblock %}

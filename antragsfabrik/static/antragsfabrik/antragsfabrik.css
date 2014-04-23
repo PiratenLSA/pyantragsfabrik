@@ -59,19 +59,19 @@ h2.appl-title {
     margin-bottom: 20px;
 }
 
-.appl-main-box .appl-footer {
+.appl-footer {
     font-size: 12px;
     color: #333;
 }
 
-.appl-main-box .appl-footer ul {
+.appl-footer ul {
     list-style-type: none;
     display: block;
     margin: 0;
     padding: 0;
 }
 
-.appl-main-box .appl-footer ul li {
+.appl-footer ul li {
     display: inline;
     margin-right: 25px;
 }
@@ -79,9 +79,7 @@ h2.appl-title {
 .appl-create input,
 .appl-edit input,
 .appl-create select,
-.appl-edit select,
-.appl-create button,
-.appl-edit button {
+.appl-edit select {
     width: 800px;
 }
 
@@ -104,4 +102,21 @@ h2.appl-title {
     height: 300px;
     width: 800px;
     background-color: #F8F8F8;
+}
+
+ins.diff {
+    background-color: #ffec42;
+}
+
+del.diff {
+    background-color: rgb(209, 131, 34);
+}
+
+.textblock {
+    max-width: 800px;
+}
+
+.appl-preview {
+    padding: 15px;
+    border: 2px dashed black;
 }

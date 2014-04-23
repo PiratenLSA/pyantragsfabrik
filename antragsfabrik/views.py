@@ -1,10 +1,14 @@
+from diff_match_patch import diff_match_patch
+from django.http import Http404
 from django.utils.timezone import now
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
+import markdown2
+from antragsfabrik import utils
 
-from antragsfabrik.models import Application, LQFBInitiative, Type
+from antragsfabrik.models import Application, LQFBInitiative, Type, HistoricalApplication
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
 
 
@@ -49,11 +53,25 @@ def appl_detail(request, application_id):
 
 def appl_revision(request, application_id, revision):
     application = get_object_or_404(Application, pk=application_id)
-    application_revision = application.history.get(history_id=revision)
+    try:
+        application_revision = application.history.get(history_id=revision)
+    except HistoricalApplication.DoesNotExist:
+        raise Http404
     return render(request, 'antragsfabrik/detail.html', {'application': application_revision, 'user': request.user})
 
 
 def appl_history(request, application_id, page=1):
+    if request.method == 'POST':
+        try:
+            revision1 = request.POST.get('from')
+            revision2 = request.POST.get('to')
+
+            if revision1 is not None and revision2 is not None:
+                return redirect('appl_history_diff', application_id=application_id, revision1=min(revision1, revision2),
+                                revision2=max(revision1, revision2))
+        except KeyError:
+            pass
+
     application = get_object_or_404(Application, pk=application_id)
     paginator = Paginator(application.history.order_by('-updated'), 20)
     try:
@@ -64,8 +82,27 @@ def appl_history(request, application_id, page=1):
                   {'application': application, 'history_list': history_list, 'user': request.user})
 
 
+def appl_history_diff(request, application_id, revision1, revision2):
+    application = get_object_or_404(Application, pk=application_id)
+    try:
+        application_revision1 = application.history.get(history_id=min(revision1, revision2))
+        application_revision2 = application.history.get(history_id=max(revision1, revision2))
+    except HistoricalApplication.DoesNotExist:
+        raise Http404
+
+    text_diff_html = utils.diff_html(application_revision1.text, application_revision2.text)
+    reasons_diff_html = utils.diff_html(application_revision1.reasons, application_revision2.reasons)
+
+    return render(request, 'antragsfabrik/history_diff.html',
+                  {'application': application, 'text_diff': text_diff_html, 'reasons_diff': reasons_diff_html,
+                   'revision1': application_revision1, 'revision2': application_revision2})
+
+
 @login_required
 def appl_create(request):
+    # wsd = with submission date - haha, to long
+    types_wsd = Type.objects.exclude(submission_date__isnull=True)
+
     if request.method == 'POST':
         applform = ApplicationForm(request.POST, prefix='appl')
         lqfbform = LQFBInitiativeForm(request.POST, prefix='lqfb')
@@ -73,6 +110,11 @@ def appl_create(request):
         if applform.is_valid() and (not lqfbform.has_changed() or lqfbform.is_valid()):
             appl = applform.save(commit=False)
             assert isinstance(appl, Application)
+
+            if 'preview' in request.POST:
+                return render(request, 'antragsfabrik/create.html',
+                              {'applform': applform, 'lqfbform': lqfbform, 'types_wsd': types_wsd, 'preview': appl})
+
             appl.author = request.user
             appl.updated_by = request.user
             appl.save()
@@ -91,9 +133,6 @@ def appl_create(request):
         applform = ApplicationForm(prefix='appl')
         lqfbform = LQFBInitiativeForm(prefix='lqfb')
 
-    # wsd = with submission date - haha, to long
-    types_wsd = Type.objects.exclude(submission_date__isnull=True)
-
     return render(request, 'antragsfabrik/create.html',
                   {'applform': applform, 'lqfbform': lqfbform, 'types_wsd': types_wsd})
 
@@ -109,9 +148,14 @@ def appl_edit(request, application_id):
         applform = ApplicationForm(request.POST, instance=application, prefix='appl')
 
         if applform.is_valid():
-            application = applform.save(commit=False)
-            application.updated_by = request.user
-            application.save()
+            appl = applform.save(commit=False)
+
+            if 'preview' in request.POST:
+                return render(request, 'antragsfabrik/edit.html',
+                              {'applform': applform, 'application': application, 'preview': appl})
+
+            appl.updated_by = request.user
+            appl.save()
             return redirect('appl_detail', application_id=application_id)
     else:
         applform = ApplicationForm(instance=application, prefix='appl')
