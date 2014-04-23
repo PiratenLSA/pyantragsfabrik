@@ -2,6 +2,7 @@ from django.utils.timezone import now
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
+from simple_history.models import HistoricalRecords
 
 
 class Type(models.Model):
@@ -51,9 +52,19 @@ class Application(models.Model):
     proofed_form_date = models.DateTimeField(null=True, blank=True)
     proofed_form_comment = models.TextField(null=True, blank=True)
     proofed_form_user = models.ForeignKey(User, related_name='proofed_form_user_related', null=True, blank=True)
+    updated_by = models.ForeignKey(User, related_name='updated_by_related', null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.title
+
+    @property
+    def _history_user(self):
+        return self.updated_by
+
+    @_history_user.setter
+    def _history_user(self, value):
+        self.updated_by = value
 
     def status_name(self):
         for st in Application.STATUS_CHOICES:
@@ -94,6 +105,7 @@ class LQFBInitiative(models.Model):
     pro = models.PositiveSmallIntegerField(null=True, blank=True)
     contra = models.PositiveSmallIntegerField(null=True, blank=True)
     neutral = models.PositiveSmallIntegerField(null=True, blank=True)
+    history = HistoricalRecords()
 
     def __str__(self):
         return self.title

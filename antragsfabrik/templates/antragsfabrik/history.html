@@ -1,0 +1,52 @@
+{% extends "antragsfabrik/base.html" %}
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+{% load i18n %}
+
+{% block subnav %}
+    {% include "antragsfabrik/appl_subnav.html" with application=application user=user perms=perms only %}
+{% endblock %}
+
+{% block content %}
+    <h2>Versionsgeschichte: {{ application.title }}</h2>
+
+    <table cellpadding=2 width=95% class="appl-overview">
+        <tr>
+            <th>aktualisiert am</th>
+            <th>durch</th>
+            <th></th>
+            <th colspan="2">Vergleichen</th>
+        </tr>
+        {% for history in history_list %}
+            <tr>
+                <td>{{ history.updated|date:"d.m.Y, H:i" }} Uhr</td>
+                <td>
+                    {% if history.history_user %}
+                        {{ history.history_user.display_name }}
+                    {% else %}
+                        Niemand
+                    {% endif %}
+                </td>
+                <td><a href="{% url 'appl_revision' application.id history.history_id %}">zeige Version</a></td>
+                <td><input type="radio" name="from" id="{{ history.history_id }}" /></td>
+                <td><input type="radio" name="to" id="{{ history.history_id }}" /></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if page.has_previous %}
+                <a href="{% url 'typ_index_page' typ.id history_list.previous_page_number %}">{% blocktrans %}previous page{% endblocktrans %}</a> |
+            {% endif %}
+
+            <span class="current">
+                {% blocktrans with number=history_list.number num_pages=history_list.paginator.num_pages %}page {{ number }} of {{ num_pages }}{% endblocktrans %}
+            </span>
+
+            {% if appl_list.has_next %}
+                |<a href="{% url 'typ_index_page' typ.id history_list.next_page_number %}">{% blocktrans %}next page{% endblocktrans %}</a>
+            {% endif %}
+        </span>
+    </div>
+{% endblock %}

@@ -47,6 +47,23 @@ def appl_detail(request, application_id):
     return render(request, 'antragsfabrik/detail.html', {'application': application, 'user': request.user})
 
 
+def appl_revision(request, application_id, revision):
+    application = get_object_or_404(Application, pk=application_id)
+    application_revision = application.history.get(history_id=revision)
+    return render(request, 'antragsfabrik/detail.html', {'application': application_revision, 'user': request.user})
+
+
+def appl_history(request, application_id, page=1):
+    application = get_object_or_404(Application, pk=application_id)
+    paginator = Paginator(application.history.order_by('-updated'), 20)
+    try:
+        history_list = paginator.page(page)
+    except EmptyPage:
+        history_list = paginator.page(paginator.num_pages)
+    return render(request, 'antragsfabrik/history.html',
+                  {'application': application, 'history_list': history_list, 'user': request.user})
+
+
 @login_required
 def appl_create(request):
     if request.method == 'POST':
@@ -57,6 +74,7 @@ def appl_create(request):
             appl = applform.save(commit=False)
             assert isinstance(appl, Application)
             appl.author = request.user
+            appl.updated_by = request.user
             appl.save()
 
             if lqfbform.has_changed():
@@ -91,7 +109,9 @@ def appl_edit(request, application_id):
         applform = ApplicationForm(request.POST, instance=application, prefix='appl')
 
         if applform.is_valid():
-            applform.save()
+            application = applform.save(commit=False)
+            application.updated_by = request.user
+            application.save()
             return redirect('appl_detail', application_id=application_id)
     else:
         applform = ApplicationForm(instance=application, prefix='appl')

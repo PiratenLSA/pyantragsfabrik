@@ -1,4 +1,5 @@
 <ul>
+    <li><a href="{% url 'appl_history' application.id %}">Versionsgeschichte</a></li>
     {% if application.author == user %}
         {% if application.changeable %}
             <li><a href="{% url 'appl_edit' application.id %}">Antrag bearbeiten</a></li>

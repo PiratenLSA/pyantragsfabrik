@@ -1,6 +1,7 @@
 {% extends "antragsfabrik/base.html" %}
 {% load staticfiles %}
 {% load antragsfabrik_extras %}
+{% load i18n %}
 
 {% block content %}
     {% if applications %}
@@ -12,6 +13,6 @@
             {% endif %}
         {% endfor %}
     {% else %}
-        <p>No applications are available.</p>
+        <p>{% trans 'No applications are submitted.' %}</p>
     {% endif %}
 {% endblock %}

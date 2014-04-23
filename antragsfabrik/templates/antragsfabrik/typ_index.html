@@ -14,20 +14,20 @@
         {% endfor %}
 
         <div class="pagination">
-                <span class="step-links">
-                    {% if page.has_previous %}
-                        <a href="{% url 'typ_index_page' typ.id page.previous_page_number %}">{% blocktrans %}previous page{% endblocktrans %}</a> |
-                    {% endif %}
+            <span class="step-links">
+                {% if page.has_previous %}
+                    <a href="{% url 'typ_index_page' typ.id page.previous_page_number %}">{% blocktrans %}previous page{% endblocktrans %}</a> |
+                {% endif %}
 
-                    <span class="current">
-                        {% blocktrans with number=page.number num_pages=page.paginator.num_pages %}page {{ number }} of {{ num_pages }}{% endblocktrans %}
-                    </span>
-
-                    {% if appl_list.has_next %}
-                        | <a href="{% url 'typ_index_page' typ.id page.next_page_number %}">{% blocktrans %}next page{% endblocktrans %}</a>
-                    {% endif %}
+                <span class="current">
+                    {% blocktrans with number=page.number num_pages=page.paginator.num_pages %}page {{ number }} of {{ num_pages }}{% endblocktrans %}
                 </span>
-            </div>
+
+                {% if appl_list.has_next %}
+                    | <a href="{% url 'typ_index_page' typ.id page.next_page_number %}">{% blocktrans %}next page{% endblocktrans %}</a>
+                {% endif %}
+            </span>
+        </div>
     {% else %}
         <p>{% trans 'No applications are submitted.' %}</p>
     {% endif %}
