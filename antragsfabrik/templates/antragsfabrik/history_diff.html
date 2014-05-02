@@ -2,6 +2,7 @@
 {% load staticfiles %}
 {% load markdown_deux_tags %}
 {% load i18n %}
+{% load antragsfabrik_extras %}
 
 {% block subnav %}
     <ul>
@@ -11,11 +12,27 @@
 {% endblock %}
 
 {% block content %}
-    <h2>Versionsvergleich: {{ application.title }}</h2>
-
-    <p>Vergleich zwischen Version vom <strong>{{ revision1.history_date|date:"d.m.Y, H:i" }} Uhr</strong> und <strong>{{ revision2.history_date|date:"d.m.Y, H:i" }} Uhr</strong></p>
+    <h2>Versionsvergleich: {{ title_diff|safe }}</h2>
 
     <div class="appl-main-box">
+        <table style="width: 100%">
+            <tr>
+                <td>Version:</td>
+                <td><strong>{{ revision1.history_date|date:"d.m.Y, H:i" }} Uhr</strong></td>
+                <td><strong>{{ revision2.history_date|date:"d.m.Y, H:i" }} Uhr</strong></td>
+            </tr>
+            <tr>
+                <td>Status:</td>
+                <td><strong>{{ revision1.status|status_name }}</strong></td>
+                <td><strong>{{ revision2.status|status_name }}</strong></td>
+            </tr>
+            <tr>
+                <td>Antragsnummer:</td>
+                <td><strong>{{ revision1.number }}</strong></td>
+                <td><strong>{{ revision2.number }}</strong></td>
+            </tr>
+        </table>
+
         <h3>Antragstext</h3>
 
         <div class="appl-text">

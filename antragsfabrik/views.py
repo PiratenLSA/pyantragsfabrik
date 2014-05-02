@@ -67,8 +67,9 @@ def appl_history(request, application_id, page=1):
             revision2 = request.POST.get('to')
 
             if revision1 is not None and revision2 is not None:
-                return redirect('appl_history_diff', application_id=application_id, revision1=min(revision1, revision2),
-                                revision2=max(revision1, revision2))
+                return redirect('appl_history_diff', application_id=application_id,
+                                revision1=min(int(revision1), int(revision2)),
+                                revision2=max(int(revision1), int(revision2)))
         except KeyError:
             pass
 
@@ -85,17 +86,19 @@ def appl_history(request, application_id, page=1):
 def appl_history_diff(request, application_id, revision1, revision2):
     application = get_object_or_404(Application, pk=application_id)
     try:
-        application_revision1 = application.history.get(history_id=min(revision1, revision2))
-        application_revision2 = application.history.get(history_id=max(revision1, revision2))
+        application_revision1 = application.history.get(history_id=min(int(revision1), int(revision2)))
+        application_revision2 = application.history.get(history_id=max(int(revision1), int(revision2)))
     except HistoricalApplication.DoesNotExist:
         raise Http404
 
+    title_diff_html = utils.diff_html(application_revision1.title, application_revision2.title)
     text_diff_html = utils.diff_html(application_revision1.text, application_revision2.text)
     reasons_diff_html = utils.diff_html(application_revision1.reasons, application_revision2.reasons)
 
     return render(request, 'antragsfabrik/history_diff.html',
-                  {'application': application, 'text_diff': text_diff_html, 'reasons_diff': reasons_diff_html,
-                   'revision1': application_revision1, 'revision2': application_revision2})
+                  {'application': application, 'title_diff': title_diff_html, 'text_diff': text_diff_html,
+                   'reasons_diff': reasons_diff_html, 'revision1': application_revision1,
+                   'revision2': application_revision2})
 
 
 @login_required
