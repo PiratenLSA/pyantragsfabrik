@@ -1,13 +1,11 @@
-from diff_match_patch import diff_match_patch
 from django.http import Http404
 from django.utils.timezone import now
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
-import markdown2
-from antragsfabrik import utils
 
+from antragsfabrik import utils
 from antragsfabrik.models import Application, LQFBInitiative, Type, HistoricalApplication
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
 
@@ -143,29 +141,44 @@ def appl_create(request):
 @login_required
 def appl_edit(request, application_id):
     application = get_object_or_404(Application, pk=application_id)
+    try:
+        lqfb = LQFBInitiative.objects.get(antrag=application)
+    except LQFBInitiative.DoesNotExist:
+        lqfb = None
+        print('lqfb does not exists')
 
     if application.author != request.user or not application.changeable():
         raise PermissionDenied
 
     if request.method == 'POST':
         applform = ApplicationForm(request.POST, instance=application, prefix='appl')
+        lqfbform = LQFBInitiativeForm(request.POST, instance=lqfb, prefix='lqfb')
 
-        if applform.is_valid():
+        if applform.is_valid() and (not lqfbform.has_changed() or lqfbform.is_valid()):
             appl = applform.save(commit=False)
+            assert isinstance(appl, Application)
 
             if 'preview' in request.POST:
                 return render(request, 'antragsfabrik/edit.html',
                               {'applform': applform, 'application': application, 'preview': appl})
 
-            appl.updated_by = request.user
-            appl.save()
+            if applform.has_changed():
+                appl.updated_by = request.user
+                appl.save()
+
+            if lqfbform.has_changed():
+                lqfbini = lqfbform.save(commit=False)
+                assert isinstance(lqfbini, LQFBInitiative)
+                lqfbini.antrag = appl
+                lqfbini.save()
+
             return redirect('appl_detail', application_id=application_id)
     else:
         applform = ApplicationForm(instance=application, prefix='appl')
-        # TODO: handle LQFB Initiatives
-        #lqfbform = LQFBInitiativeForm(prefix='lqfb')
+        lqfbform = LQFBInitiativeForm(instance=lqfb, prefix='lqfb')
 
-    return render(request, 'antragsfabrik/edit.html', {'applform': applform, 'application': application})
+    return render(request, 'antragsfabrik/edit.html',
+                  {'applform': applform, 'lqfbform': lqfbform, 'application': application})
 
 
 @login_required

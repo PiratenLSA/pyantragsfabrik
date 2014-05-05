@@ -21,6 +21,8 @@
     <form action="{% url 'appl_edit' application.id %}" method="post" class="appl-edit">
         {% csrf_token %}
         {{ applform.as_p }}
+        <h3>LQFB Initiative</h3>
+        {{ lqfbform.as_p }}
         <button type="submit" name="save">Antrag speichern</button>
         <button type="submit" name="preview">Vorschau zeigen</button>
     </form>

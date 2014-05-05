@@ -9,14 +9,16 @@ class ApplicationForm(ModelForm):
         instance = getattr(self, 'instance', None)
         assert instance is None or isinstance(instance, Application)
         if instance and instance.pk and instance.is_submitted():
+            self.fields['typ'].required = False
             self.fields['typ'].widget.attrs['disabled'] = True
 
-    def clean_sku(self):
+    def clean_typ(self):
         instance = getattr(self, 'instance', None)
+        assert instance is None or isinstance(instance, Application)
         if instance and instance.pk:
             return instance.typ
         else:
-            return self.cleaned_data['typ']
+            return self.cleaned_data.get('typ', None)
 
     class Meta:
         model = Application
