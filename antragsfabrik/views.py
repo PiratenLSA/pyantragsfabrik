@@ -239,3 +239,7 @@ def profile_edit(request):
         profileform = UserProfileForm(instance=request.user.profile, prefix='userprofile')
 
     return render(request, 'antragsfabrik/profile_edit.html', {'profileform': profileform})
+
+
+def imprint(request):
+    return render(request, 'antragsfabrik/imprint.html')

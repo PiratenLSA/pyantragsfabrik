@@ -15,4 +15,5 @@ urlpatterns = patterns('', url(r'^$', views.index, name='index'),
                        url(r'^appl/(?P<application_id>\d+)/edit/$', views.appl_edit, name='appl_edit'),
                        url(r'^appl/(?P<application_id>\d+)/submit/$', views.appl_submit, name='appl_submit'),
                        url(r'^appl/(?P<application_id>\d+)/cancel/$', views.appl_cancel, name='appl_cancel'),
-                       url(r'^appl/(?P<application_id>\d+)/setnumber/$', views.appl_set_number, name='appl_set_number'),)
+                       url(r'^appl/(?P<application_id>\d+)/setnumber/$', views.appl_set_number, name='appl_set_number'),
+                       url(r'^imprint/$', views.imprint, name='imprint'),)
