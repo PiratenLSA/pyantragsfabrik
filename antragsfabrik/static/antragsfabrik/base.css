@@ -119,3 +119,8 @@ ul.errorlist {
     padding-left: 15px;
     font-size: 13px;
 }
+
+button.imgbutton {
+    border: 0;
+    padding: 0;
+}

@@ -91,6 +91,10 @@ class Application(models.Model):
         self.number = self.typ.prefix + str(self.typ.last_number)
         self.save()
 
+    @models.permalink
+    def get_absolute_url(self):
+        return 'appl_detail', (), {'application_id': self.id}
+
     class Meta:
         permissions = (
             ('proof_appl', _('Can change proof status of the application.')),

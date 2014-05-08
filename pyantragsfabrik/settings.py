@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'markdown_deux',
     'simple_history',
     'south',
+    'voting',
 )
 
 MIDDLEWARE_CLASSES = (

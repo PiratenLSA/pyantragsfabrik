@@ -1,0 +1,55 @@
+{% load static %}
+{% load voting_tags %}
+
+<div class="appl-vote">
+    {% score_for_object application as score %}
+
+    <div class="score">
+        <div class="score-number">{{ score.score }}</div>
+        <div class="score-text">Punkte</div>
+    </div>
+
+    {% if user.is_authenticated and user != application.author %}
+        {% vote_by_user user on application as vote %}
+
+        <div class="vote-buttons">
+            <div class="vote-up">
+                {% if vote.vote == 1 %}
+                    <form method="POST" action="{% url 'appl-vote' application.id 'clear' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="imgbutton">
+                            <img src="{% static "antragsfabrik/images/vote_up.png" %}"/>
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{% url 'appl-vote' application.id 'up' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="imgbutton">
+                            <img src="{% static "antragsfabrik/images/vote_up_inactive.png" %}"/>
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+
+            <div class="vote-down">
+                {% if vote.vote == -1 %}
+                    <form method="POST" action="{% url 'appl-vote' application.id 'clear' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="imgbutton">
+                            <img src="{% static "antragsfabrik/images/vote_dn.png" %}"/>
+                        </button>
+                    </form>
+                {% else %}
+                    <form method="POST" action="{% url 'appl-vote' application.id 'down' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="imgbutton">
+                            <img src="{% static "antragsfabrik/images/vote_dn_inactive.png" %}"/>
+                        </button>
+                    </form>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
+
+    <div style="clear: both"></div>
+</div>

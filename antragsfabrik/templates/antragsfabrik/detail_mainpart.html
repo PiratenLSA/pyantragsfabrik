@@ -1,5 +1,9 @@
 {% load markdown_deux_tags %}
 
+{% if not preview %}
+    {% include "antragsfabrik/vote_box.html" %}
+{% endif %}
+
 <h2 class="appl-title">
     {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
 </h2>

@@ -4,3 +4,4 @@ django-allauth>=0.16.1
 django-simple-history
 South
 diff-match-patch
+django-voting
