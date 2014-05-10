@@ -4,6 +4,19 @@
 {% load i18n %}
 
 {% block content %}
+    <div class="textblock">
+        <p>
+            Dies ist die Seite der Antragsfabrik für den Landesparteitag 2014.1. Hier werden sich alle wohl fühlen, die
+            an der Weiterentwicklung der Piratenpartei - sprich deren Satzung und Programm - interessiert sind. Eure
+            Anträge können hier vorbereitet, diskutiert und eingereicht werden.
+        </p>
+
+        <p>
+            Derzeit enthält die Antragsfabrik nur die Basisfeatures. Weitere Features werden folgen.
+        </p>
+
+    </div>
+
     {% if applications %}
         {% for typid, appl_list in applications.items %}
             {% if appl_list|length > 0 %}
