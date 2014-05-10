@@ -102,7 +102,7 @@ def appl_history_diff(request, application_id, revision1, revision2):
 @login_required
 def appl_create(request):
     # wsd = with submission date - haha, to long
-    types_wsd = Type.objects.exclude(submission_date__isnull=True)
+    types_wsd = Type.objects.exclude(submission_date__isnull=True).order_by('name')
 
     if request.method == 'POST':
         applform = ApplicationForm(request.POST, prefix='appl')
