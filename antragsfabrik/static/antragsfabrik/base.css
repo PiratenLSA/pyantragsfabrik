@@ -124,3 +124,7 @@ button.imgbutton {
     border: 0;
     padding: 0;
 }
+
+.center {
+    text-align: center;
+}

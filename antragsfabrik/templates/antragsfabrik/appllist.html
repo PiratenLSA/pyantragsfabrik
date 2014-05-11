@@ -1,16 +1,21 @@
+{% load voting_tags %}
+
 <table cellpadding=2 width=95% class="appl-overview">
     <tr>
-        <th>NR</th>
+        <th>Punkte</th>
         <th>Title</th>
         <th>Status</th>
         <th>Antragsteller</th>
+        <th>zuletzt geändert</th>
     </tr>
     {% for application in appl_list %}
+        {% score_for_object application as score %}
         <tr>
-            <td>{{ application.number }}</td>
-            <td><a href="{% url 'appl_detail' application.id %}">{{ application.title }}</a></td>
-            <td>{{ application.status_name }}</td>
-            <td>{{ application.author.display_name }}</td>
+            <td class="center">{{ score.score }}</td>
+            <td>{% if application.number %}{{ application.number }}: {% endif %}<a href="{% url 'appl_detail' application.id %}">{{ application.title }}</a></td>
+            <td class="center">{{ application.status_name }}</td>
+            <td class="center">{{ application.author.display_name }}</td>
+            <td class="center">{{ application.updated|date:"d.m.Y, H:i" }} Uhr</td>
         </tr>
     {% endfor %}
 </table>
