@@ -123,6 +123,7 @@ ul.errorlist {
 button.imgbutton {
     border: 0;
     padding: 0;
+    cursor: pointer;
 }
 
 .center {
