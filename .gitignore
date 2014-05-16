@@ -59,3 +59,4 @@ docs/_build/
 *.sqlite3
 
 production_settings.py
+jquery.min.js
