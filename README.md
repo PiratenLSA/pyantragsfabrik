@@ -16,18 +16,22 @@ see **requirements.txt**
 
 **Prepare:**
 
-```# git clone https://github.com/PiratenLSA/pyantragsfabrik.git
+```
+# git clone https://github.com/PiratenLSA/pyantragsfabrik.git
 # cd pyantragsfabrik
 # virtualenv env
 # . env/bin/activate
 # pip install -r requirements.txt
-# wget -O antragsfabrik/static/antragsfabrik/javascript/jquery.min.js http://code.jquery.com/jquery-1.11.1.min.js```
+# wget -O antragsfabrik/static/antragsfabrik/javascript/jquery.min.js http://code.jquery.com/jquery-1.11.1.min.js
+```
 
 For Python 3 support in **django-markdown-deux** look below.
 
-```# python manage.py syncdb
+```
+# python manage.py syncdb
 # python manage.py migrate
-# python manage.py runserver```
+# python manage.py runserver
+```
 
 Follow the instructions and open [http://127.0.0.1:8000](http://127.0.0.1:8000). For creating application types or
 set social media oauth keys open [http://127.0.0.1:8000/admin/](http://127.0.0.1:8000/admin/).
@@ -39,7 +43,8 @@ The dependency **django-markdown-deux** has no support for Python 3. To fix this
 
 ## Updating
 
-```# git pull origin
+```
+# git pull origin
 # python manage.py syncdb
 # python manage.py migrate
 ```
