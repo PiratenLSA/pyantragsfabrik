@@ -60,3 +60,4 @@ docs/_build/
 
 production_settings.py
 jquery.min.js
+antragsfabrik/static/antragsfabrik/editor

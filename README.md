@@ -8,7 +8,8 @@ Antragsfabrik der Piratenpartei Sachsen-Anhalt
 - python 3
 - virtualenv
 - pip
-- jquery (tested with 1.11.1)
+- jquery (tested with 1.11.1 - see below)
+- npm (for grunt - to build markdown editor)
 
 see **requirements.txt**
 
@@ -22,10 +23,30 @@ see **requirements.txt**
 # virtualenv env
 # . env/bin/activate
 # pip install -r requirements.txt
-# wget -O antragsfabrik/static/antragsfabrik/javascript/jquery.min.js http://code.jquery.com/jquery-1.11.1.min.js
 ```
 
 For Python 3 support in **django-markdown-deux** look below.
+
+**jQuery:**
+
+```
+# wget -O antragsfabrik/static/antragsfabrik/javascript/jquery.min.js http://code.jquery.com/jquery-1.11.1.min.js
+```
+
+**Markdown Editor**
+
+```
+# cd /tmp
+# git clone https://github.com/lepture/editor.git
+# cd editor
+# npm install
+# npm install grunt-cli -g
+# grunt copy
+# grunt transport
+# cp -r build /path/of/pyantragsfabrik/antragsfabrik/static/antragsfabrik/editor
+```
+
+**Database & Start:**
 
 ```
 # python manage.py syncdb
