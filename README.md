@@ -2,7 +2,7 @@
 
 Antragsfabrik der Piratenpartei Sachsen-Anhalt
 
-# Dependencies
+## Dependencies
 
 - git
 - python 3
