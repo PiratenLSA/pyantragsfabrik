@@ -18,7 +18,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 <div class="appl-main-box">
     <div class="appl-text">
         {% if sourcecode %}
-            {{ application.text }}
+            {{ application.text|linebreaksbr }}
         {% else %}
             {{ application.text|markdown }}
         {% endif %}
@@ -27,7 +27,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     <div class="appl-label">Begründung</div>
     <div class="appl-reasons">
         {% if sourcecode %}
-            {{ application.reasons }}
+            {{ application.reasons|linebreaksbr }}
         {% else %}
             {{ application.reasons|markdown }}
         {% endif %}
