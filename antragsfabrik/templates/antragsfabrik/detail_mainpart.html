@@ -17,11 +17,22 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 <div class="appl-main-box">
     <div class="appl-text">
-        {{ application.text|markdown }}
+        {% if sourcecode %}
+            {{ application.text }}
+        {% else %}
+            {{ application.text|markdown }}
+        {% endif %}
     </div>
 
     <div class="appl-label">Begründung</div>
-    <div class="appl-reasons">{{ application.reasons|markdown }}</div>
+    <div class="appl-reasons">
+        {% if sourcecode %}
+            {{ application.reasons }}
+        {% else %}
+            {{ application.reasons|markdown }}
+        {% endif %}
+
+    </div>
 
     {% if application.lqfbinitiative_set.all %}
         <div class="appl-label">

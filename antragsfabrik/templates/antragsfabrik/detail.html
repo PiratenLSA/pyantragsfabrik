@@ -9,7 +9,13 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 {% load staticfiles %}
 
 {% block subnav %}
-    {% include "antragsfabrik/appl_subnav.html" with application=application user=user perms=perms only %}
+    {% if sourcecode %}
+        <ul>
+            <li><a href="{% url 'appl_detail' application.id %}">zurück zum Antrag</a></li>
+        </ul>
+    {% else %}
+        {% include "antragsfabrik/appl_subnav.html" with application=application user=user perms=perms only %}
+    {% endif %}
 {% endblock %}
 
 {% block content %}

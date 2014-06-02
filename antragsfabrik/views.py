@@ -53,6 +53,12 @@ def appl_detail(request, application_id):
     return render(request, 'antragsfabrik/detail.html', {'application': application, 'user': request.user})
 
 
+def appl_sourcecode(request, application_id):
+    application = get_object_or_404(Application, pk=application_id)
+    return render(request, 'antragsfabrik/detail.html',
+                  {'application': application, 'user': request.user, 'sourcecode': True})
+
+
 def appl_revision(request, application_id, revision):
     application = get_object_or_404(Application, pk=application_id)
     try:
