@@ -15,6 +15,9 @@ class Type(models.Model):
     last_number = models.PositiveSmallIntegerField(default=0, editable=False)
     submission_date = models.DateTimeField(null=True, blank=True)
 
+    def is_prior_submission_date(self):
+        return self.submission_date is None or self.submission_date > now()
+
     def __str__(self):
         return self.name
 
@@ -80,14 +83,14 @@ class Application(models.Model):
         return self.status == Application.DRAFT
 
     def submittable(self):
-        return self.status == Application.DRAFT and self.typ.submission_date > now()
+        return self.status == Application.DRAFT and self.typ.is_prior_submission_date()
 
     def is_submitted(self):
         return self.status == Application.SUBMITTED
 
     def changeable(self):
         return self.status == Application.DRAFT or (
-            self.status == Application.SUBMITTED and self.typ.submission_date > now())
+            self.status == Application.SUBMITTED and self.typ.is_prior_submission_date())
 
     def set_number(self):
         self.typ.last_number += 1
