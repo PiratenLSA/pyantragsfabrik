@@ -218,6 +218,7 @@ def appl_changestatus(request, application_id, next_status):
             application.submitted = now()
 
         application.status = next_status
+        application.updated_by = request.user
         application.save()
         return redirect('appl_detail', application_id=application_id)
 
@@ -233,6 +234,7 @@ def appl_set_number(request, application_id):
 
     if request.method == 'POST':
         application.set_number()
+        application.updated_by = request.user
         return redirect('appl_detail', application_id=application_id)
 
     return render(request, 'antragsfabrik/setnumber.html', {'application': application})
