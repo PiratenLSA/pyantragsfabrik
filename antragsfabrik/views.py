@@ -155,7 +155,6 @@ def appl_edit(request, application_id):
         lqfb = LQFBInitiative.objects.get(antrag=application)
     except LQFBInitiative.DoesNotExist:
         lqfb = None
-        print('lqfb does not exists')
 
     if application.author != request.user or not application.changeable():
         raise PermissionDenied
@@ -170,7 +169,7 @@ def appl_edit(request, application_id):
 
             if 'preview' in request.POST:
                 return render(request, 'antragsfabrik/edit.html',
-                              {'applform': applform, 'application': application, 'preview': appl})
+                              {'applform': applform, 'lqfbform': lqfbform, 'application': application, 'preview': appl})
 
             if applform.has_changed():
                 appl.updated_by = request.user
