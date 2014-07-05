@@ -7,8 +7,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 <ul>
     <li><a href="{% url 'appl_history' application.id %}">Versionsgeschichte</a></li>
     <li><a href="{% url 'appl_sourcecode' application.id %}">Quellcode</a></li>
-    {% if application.author == user %}
-        {% if application.changeable %}
+    {% if application.author == user or perms.antragsfabrik.change_application %}
+        {% if application.changeable or perms.antragsfabrik.change_application %}
             <li><a href="{% url 'appl_edit' application.id %}">Antrag bearbeiten</a></li>
         {% endif %}
         {% if application.submittable %}

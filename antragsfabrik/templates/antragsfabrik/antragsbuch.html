@@ -17,7 +17,11 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
         <meta charset="UTF-8"/>
     </head>
     <body>
-        <h1>Antragsbuch</h1>
+        <h1>Antragsbuch für den Landesparteitag 2014.1</h1>
+
+        <div class="firstpage-org">Piratenpartei Sachsen-Anhalt</div>
+
+        <div class="firstpage-stand">Stand: {% now "d.m.Y, H:i" %} Uhr</div>
 
         {% for typid, appl_list in applications.items %}
             {% if appl_list|length > 0 %}
@@ -28,6 +32,10 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
                     <h3>
                         {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
                     </h3>
+
+                    <div class="appl-footer">
+                        von {{ application.author.display_name }}, eingereicht: {{ application.submitted|date:"d.m.Y, H:i" }} Uhr
+                    </div>
 
                     <div class="appl-main-box">
                         <div class="appl-text">
@@ -45,7 +53,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
                             </div>
                             <ul class="appl-lqfb">
                                 {% for ini in application.lqfbinitiative_set.all %}
-                                    <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
+                                    <li>{{ ini.title }}:<br/><a href="{{ ini.url }}">{{ ini.url }}</a></li>
                                 {% endfor %}
                             </ul>
                         {% endif %}

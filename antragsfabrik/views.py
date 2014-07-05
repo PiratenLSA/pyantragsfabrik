@@ -164,7 +164,8 @@ def appl_edit(request, application_id):
     except LQFBInitiative.DoesNotExist:
         lqfb = None
 
-    if application.author != request.user or not application.changeable():
+    if not request.user.has_perm('antragsfabrik.change_application') and (
+            application.author != request.user or not application.changeable()):
         raise PermissionDenied
 
     if request.method == 'POST':
