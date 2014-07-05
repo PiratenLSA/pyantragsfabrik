@@ -127,6 +127,8 @@ SITE_ID = 1
 
 STATIC_URL = '/static/'
 
+ASSETS_ROOT = '/home/chris/repos/pyantragsfabrik/assets/'
+
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_MIN_LENGTH = 3

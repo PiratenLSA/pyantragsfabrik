@@ -1,17 +1,24 @@
 # This Source Code Form is subject to the terms of the Mozilla Public
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
+import mimetypes
+import os
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
+from django.template import RequestContext
+from django.template.loader import get_template
 from django.utils.timezone import now
 from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
 
+import weasyprint
+
 from antragsfabrik import utils
 from antragsfabrik.models import Application, LQFBInitiative, Type, HistoricalApplication
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
+from pyantragsfabrik import settings
 
 
 def index(request):
@@ -254,3 +261,32 @@ def profile_edit(request):
 
 def imprint(request):
     return render(request, 'antragsfabrik/imprint.html')
+
+
+def antragsbuch(request):
+    types = dict()
+    applications = dict()
+    for typ in Type.objects.all().order_by('name'):
+        types[typ.id] = typ.name
+        applications[typ.id] = Application.objects.filter(typ=typ, status=Application.SUBMITTED).order_by('number')
+
+    context = {'types': types, 'applications': applications}
+
+    template = get_template("antragsfabrik/antragsbuch.html")
+    html = template.render(RequestContext(request, context))
+
+    response = HttpResponse(content_type="application/pdf")
+    weasyprint.HTML(string=html, url_fetcher=url_fetcher).write_pdf(response)
+    return response
+
+
+def url_fetcher(url):
+    if url.startswith('assets://'):
+        url = url[len('assets://'):]
+        filepath = os.path.join(settings.ASSETS_ROOT, url)
+        with open(filepath) as asset:
+            print(filepath)
+            contents = asset.read()
+        return dict(string=contents, mime_type=mimetypes.guess_type(filepath)[0])
+    else:
+        return weasyprint.default_url_fetcher(url)

@@ -1,0 +1,57 @@
+{% comment %}
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+{% endcomment %}
+
+{% load staticfiles %}
+{% load markdown_deux_tags %}
+{% load antragsfabrik_extras %}
+
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <title>Antragsbuch</title>
+        <link rel="stylesheet" type="text/css" href="assets://CSS21-print.css"/>
+        <link rel="stylesheet" type="text/css" href="assets://antragsfabrik.css"/>
+        <meta charset="UTF-8"/>
+    </head>
+    <body>
+        <h1>Antragsbuch</h1>
+
+        {% for typid, appl_list in applications.items %}
+            {% if appl_list|length > 0 %}
+                <h2>{{ types|key:typid }}</h2>
+
+                {% for application in appl_list %}
+                    <div class="page-break"></div>
+                    <h3>
+                        {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
+                    </h3>
+
+                    <div class="appl-main-box">
+                        <div class="appl-text">
+                            {{ application.text|markdown }}
+                        </div>
+
+                        <div class="appl-label">Begründung</div>
+                        <div class="appl-reasons">
+                            {{ application.reasons|markdown }}
+                        </div>
+
+                        {% if application.lqfbinitiative_set.all %}
+                            <div class="appl-label">
+                                LiquidFeedback
+                            </div>
+                            <ul class="appl-lqfb">
+                                {% for ini in application.lqfbinitiative_set.all %}
+                                    <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </body>
+</html>
