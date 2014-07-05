@@ -3,6 +3,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 import mimetypes
 import os
+import re
 
 from django.http import Http404, HttpResponse
 from django.template import RequestContext
@@ -263,12 +264,27 @@ def imprint(request):
     return render(request, 'antragsfabrik/imprint.html')
 
 
+def number_key(name):
+    if name is None:
+        return None
+
+    parts = re.findall('[^0-9]+|[0-9]+', name)
+    L = []
+    for part in parts:
+        try:
+            L.append(int(part))
+        except ValueError:
+            L.append(part)
+    return L
+
+
 def antragsbuch(request):
     types = dict()
     applications = dict()
     for typ in Type.objects.all().order_by('name'):
         types[typ.id] = typ.name
-        applications[typ.id] = Application.objects.filter(typ=typ, status=Application.SUBMITTED).order_by('number')
+        appl_list = Application.objects.filter(typ=typ, status=Application.SUBMITTED).order_by('number')
+        applications[typ.id] = sorted(appl_list, key=lambda k: number_key(k.number))
 
     context = {'types': types, 'applications': applications}
 
@@ -285,7 +301,6 @@ def url_fetcher(url):
         url = url[len('assets://'):]
         filepath = os.path.join(settings.ASSETS_ROOT, url)
         with open(filepath) as asset:
-            print(filepath)
             contents = asset.read()
         return dict(string=contents, mime_type=mimetypes.guess_type(filepath)[0])
     else:
