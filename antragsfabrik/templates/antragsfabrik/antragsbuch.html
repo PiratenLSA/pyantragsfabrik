@@ -11,15 +11,18 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 <!DOCTYPE html>
 <html lang="de">
     <head>
-        <title>Antragsbuch</title>
-        <link rel="stylesheet" type="text/css" href="assets://CSS21-print.css"/>
+        <title>{{ pdftitle }}</title>
+        <link rel="stylesheet" type="text/css" href="assets://pdf.css"/>
         <link rel="stylesheet" type="text/css" href="assets://antragsfabrik.css"/>
+        {% if not printversion %}
+            <link rel="stylesheet" type="text/css" href="assets://pdf-online.css"/>
+        {% endif %}
         <meta charset="UTF-8"/>
     </head>
     <body>
-        <h1>Antragsbuch für den Landesparteitag 2014.1</h1>
+        <h1>{{ pdftitle }}</h1>
 
-        <div class="firstpage-org">Piratenpartei Sachsen-Anhalt</div>
+        <div class="firstpage-org">{{ pdforg }}</div>
 
         <div class="firstpage-stand">Stand: {% now "d.m.Y, H:i" %} Uhr</div>
 
@@ -42,10 +45,12 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
                             {{ application.text|markdown }}
                         </div>
 
-                        <div class="appl-label">Begründung</div>
-                        <div class="appl-reasons">
-                            {{ application.reasons|markdown }}
-                        </div>
+                        {% if not printversion %}
+                            <div class="appl-label">Begründung</div>
+                            <div class="appl-reasons">
+                                {{ application.reasons|markdown }}
+                            </div>
+                        {% endif %}
 
                         {% if application.lqfbinitiative_set.all %}
                             <div class="appl-label">

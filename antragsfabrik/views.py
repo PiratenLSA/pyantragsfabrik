@@ -13,13 +13,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.core.paginator import Paginator, EmptyPage
 from django.contrib.auth.decorators import login_required, permission_required
 from django.core.exceptions import PermissionDenied
+from django.conf import settings
 
 import weasyprint
 
 from antragsfabrik import utils
 from antragsfabrik.models import Application, LQFBInitiative, Type, HistoricalApplication
 from antragsfabrik.forms import ApplicationForm, LQFBInitiativeForm, UserProfileForm
-from pyantragsfabrik import settings
 
 
 def index(request):
@@ -265,21 +265,23 @@ def imprint(request):
     return render(request, 'antragsfabrik/imprint.html')
 
 
+# http://stackoverflow.com/a/4287301/1509370
 def number_key(name):
     if name is None:
         return None
 
     parts = re.findall('[^0-9]+|[0-9]+', name)
-    L = []
+    sort_list = []
     for part in parts:
         try:
-            L.append(int(part))
+            sort_list.append(int(part))
         except ValueError:
-            L.append(part)
-    return L
+            sort_list.append(part)
+    return sort_list
 
 
-def antragsbuch(request):
+@login_required
+def antragsbuch(request, printversion=False):
     types = dict()
     applications = dict()
     for typ in Type.objects.all().order_by('name'):
@@ -287,7 +289,8 @@ def antragsbuch(request):
         appl_list = Application.objects.filter(typ=typ, status=Application.SUBMITTED).order_by('number')
         applications[typ.id] = sorted(appl_list, key=lambda k: number_key(k.number))
 
-    context = {'types': types, 'applications': applications}
+    context = {'types': types, 'applications': applications, 'pdftitle': 'Antragsbuch für den Landesparteitag 2014.1',
+               'pdforg': 'Piratenpartei Sachsen-Anhalt', 'printversion': printversion}
 
     template = get_template("antragsfabrik/antragsbuch.html")
     html = template.render(RequestContext(request, context))
@@ -300,7 +303,7 @@ def antragsbuch(request):
 def url_fetcher(url):
     if url.startswith('assets://'):
         url = url[len('assets://'):]
-        filepath = os.path.join(settings.ASSETS_ROOT, url)
+        filepath = os.path.join(getattr(settings, 'ASSETS_ROOT', './assets/'), url)
         with open(filepath) as asset:
             contents = asset.read()
         return dict(string=contents, mime_type=mimetypes.guess_type(filepath)[0])

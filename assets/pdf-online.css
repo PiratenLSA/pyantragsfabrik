@@ -1,0 +1,7 @@
+h2, h3 {
+    page-break-before: always;
+}
+
+html, body {
+    font: 12pt/1.25 Fontin, serif !important;
+}

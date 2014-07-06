@@ -31,4 +31,5 @@ urlpatterns = patterns('',
     url(r'^appl/(?P<application_id>\d+)/setnumber/$', views.appl_set_number, name='appl_set_number'),
     url(r'^appl/(?P<object_id>\d+)/vote/(?P<direction>up|down|clear)/$', vote_on_object, voting_dict, name='appl-vote'),
     url(r'^antragsbuch.pdf$', views.antragsbuch, name='antragsbuch'),
+    url(r'^antragsbuch-printversion.pdf$', views.antragsbuch, {'printversion': True}, name='antragsbuch'),
 )
