@@ -98,9 +98,9 @@ class Application(models.Model):
         self.number = self.typ.prefix + str(self.typ.last_number)
         self.save()
 
-    @models.permalink
     def get_absolute_url(self):
-        return 'appl_detail', (), {'application_id': self.id}
+        from django.core.urlresolvers import reverse
+        return reverse('appl_detail', args=[self.id])
 
     class Meta:
         permissions = (

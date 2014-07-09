@@ -2,34 +2,10 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from rest_framework import serializers
 from antragsfabrik.models import Application, Type, LQFBInitiative, UserProfile
-
-
-class LQFBInitiativeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = LQFBInitiative
-        fields = ('title', 'url')
-
-
-class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
-    author = serializers.Field(source='author.id')
-    typ = serializers.Field(source='typ.id')
-    lqfbinitiative_set = LQFBInitiativeSerializer(many=True, label='lqfb')
-
-    class Meta:
-        model = Application
-        fields = (
-            'id', 'number', 'status', 'typ', 'author', 'title', 'text', 'reasons', 'discussion', 'created', 'updated',
-            'submitted', 'lqfbinitiative_set'
-        )
-
-
-class TypeSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Type
-        fields = ('id', 'name', 'prefix', 'submission_date')
 
 
 class UserProfileSerializer(serializers.HyperlinkedModelSerializer):
@@ -44,3 +20,48 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
         fields = ('id', 'username', 'profile')
+
+
+class LQFBInitiativeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = LQFBInitiative
+        fields = ('title', 'url')
+
+
+class TypeSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Type
+        fields = ('id', 'name', 'prefix', 'submission_date')
+
+
+# noinspection PyMethodMayBeStatic
+class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
+    author = UserSerializer(many=False)
+    author_name = serializers.SerializerMethodField('get_author_name')
+    typ = TypeSerializer()
+    typ_name = serializers.Field(source='typ.name')
+    lqfbinitiative_set = LQFBInitiativeSerializer(many=True, label='lqfb')
+    appl_url = serializers.SerializerMethodField('get_absolute_url')
+    status_name = serializers.Field(source='status_name')
+
+    class Meta:
+        model = Application
+        fields = (
+            'id', 'number', 'status', 'status_name', 'typ', 'typ_name', 'author', 'author_name', 'title', 'text',
+            'reasons', 'discussion', 'created', 'updated', 'submitted', 'lqfbinitiative_set', 'appl_url', 'url'
+        )
+
+    def get_absolute_url(self, appl):
+        assert isinstance(appl, Application)
+        # TODO: fix ugly static url
+        return 'http://lptfabrik.piraten-lsa.de' + appl.get_absolute_url()
+
+    def get_author_name(self, appl):
+        assert isinstance(appl, Application)
+        profile = appl.author.profile
+        assert isinstance(profile, UserProfile)
+
+        if profile.display_name:
+            return profile.display_name
+
+        return appl.author.username
