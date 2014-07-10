@@ -2,7 +2,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from markdown_deux import markdown
 
 from rest_framework import serializers
 from antragsfabrik.models import Application, Type, LQFBInitiative, UserProfile
@@ -43,12 +43,14 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
     lqfbinitiative_set = LQFBInitiativeSerializer(many=True, label='lqfb')
     appl_url = serializers.SerializerMethodField('get_absolute_url')
     status_name = serializers.Field(source='status_name')
+    text_html = serializers.SerializerMethodField('get_text_html')
 
     class Meta:
         model = Application
         fields = (
             'id', 'number', 'status', 'status_name', 'typ', 'typ_name', 'author', 'author_name', 'title', 'text',
-            'reasons', 'discussion', 'created', 'updated', 'submitted', 'lqfbinitiative_set', 'appl_url', 'url'
+            'text_html', 'reasons', 'discussion', 'created', 'updated', 'submitted', 'lqfbinitiative_set', 'appl_url',
+            'url'
         )
 
     def get_absolute_url(self, appl):
@@ -65,3 +67,7 @@ class ApplicationSerializer(serializers.HyperlinkedModelSerializer):
             return profile.display_name
 
         return appl.author.username
+
+    def get_text_html(self, appl):
+        assert isinstance(appl, Application)
+        return markdown(appl.text)
