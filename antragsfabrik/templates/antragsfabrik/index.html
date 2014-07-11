@@ -9,6 +9,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 {% load staticfiles %}
 {% load antragsfabrik_extras %}
 {% load i18n %}
+{% load socialaccount %}
 
 {% block content %}
     <div class="textblock">
@@ -18,9 +19,16 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
             Anträge können hier vorbereitet, diskutiert und eingereicht werden.
         </p>
 
-        <p>
-            Derzeit enthält die Antragsfabrik nur die Basisfeatures. Weitere Features werden folgen.
-        </p>
+        {% if not user.is_authenticated %}
+            <p>
+                Um Anträge zu erstellen, zu bewerten und die Bewertungen anderer anzusehen musst du dich
+                <a href="{% url 'account_login' %}">einloggen</a>.
+                Falls du noch keinen Account angelegt hast, so kannst du dich einfach
+                <a href="{% url 'account_signup' %}">registrieren</a> oder dich mit Hilfe von deinem bestehenden
+                <a href="{% provider_login_url "twitter" %}">Twitter</a> oder
+                <a href="{% provider_login_url "google" %}">Google</a> Account anmelden.
+            </p>
+        {% endif %}
 
     </div>
 
@@ -29,7 +37,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
             {% if appl_list|length > 0 %}
                 <h2><a href="{% url 'typ_index' typid %}">{{ types|key:typid }}</a></h2>
 
-                {% include "antragsfabrik/appllist.html" with appl_list=appl_list only %}
+                {% include "antragsfabrik/appllist.html" with appl_list=appl_list %}
             {% endif %}
         {% endfor %}
     {% else %}

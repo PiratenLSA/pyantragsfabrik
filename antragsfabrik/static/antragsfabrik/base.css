@@ -9,12 +9,27 @@ body {
     line-height: 1.6;
     color: #242424;
     margin: 0;
+    padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
     color: #2B2926;
     font-family: 'Viga', 'Source Sans Pro', 'sourcesanspro', sans-serif;
     font-weight: 400;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: black;
+}
+
+h2 {
+    font-size: 1.3em;
+    color: #DE2355;
+}
+
+h3 {
+    font-size: 1.0em;
 }
 
 a, a:hover, a:visited {
@@ -36,20 +51,11 @@ ul {
  */
 
 header {
-    height: 140px;
-    background: #EEE url('images/darkwave.png');
+    height: 110px;
     padding: 20px;
 }
 
-header #logo {
-    float: left;
-    margin-right: 35px;
-    height: 140px;
-}
-
 header h1 {
-    font-size: 45px;
-    color: black;
     float: left;
 }
 
@@ -59,11 +65,7 @@ header h1 {
 
 .wrapper {
     max-width: 1400px;
-    margin: 20px auto;
-}
-
-#c_wrap {
-    padding: 15px 20px;
+    margin: 0 auto 20px;
 }
 
 /**
@@ -73,10 +75,10 @@ nav ul {
     list-style-type: none;
     display: block;
     margin: 0;
-    padding: 15px;
+    padding: 5px 15px;
     background: #333;
     color: #fff;
-    font-size: 17px;
+    font-size: 15px;
 }
 
 nav ul li {
@@ -94,6 +96,11 @@ nav#subnav ul {
     padding: 5px 15px;
     font-size: 13px;
     background-color: #444;
+    margin-top: 5px;
+}
+
+.inner {
+    margin-top: 40px;
 }
 
 input,

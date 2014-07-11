@@ -17,7 +17,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
         {% for status_key, status_appl_list in appl_list.items %}
             <h3>{{ statuses|key:status_key }}</h3>
 
-            {% include "antragsfabrik/appllist.html" with appl_list=status_appl_list only %}
+            {% include "antragsfabrik/appllist.html" with appl_list=status_appl_list %}
         {% endfor %}
 
         <div class="pagination">

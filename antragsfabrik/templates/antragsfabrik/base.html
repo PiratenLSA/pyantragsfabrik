@@ -11,6 +11,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 <head>
     <title>{% block title %}Antragsfabrik für den LPT 2014.1 der Piratenpartei Sachsen-Anhalt{% endblock %}</title>
 
+    <meta name="viewport" content="width=650" />
+
     <link rel="stylesheet" href="{% static 'antragsfabrik/editor/editor.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/base.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'antragsfabrik/antragsfabrik.css' %}"/>
@@ -39,35 +41,35 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     <meta charset="UTF-8"/>
 </head>
 <body>
-<header>
-    <h1>Antragsfabrik des LPT 2014.1</h1>
-</header>
+    <div id="c_wrap" class="wrapper">
+        <header>
+            <h1>Antragsfabrik des LPT 2014.1</h1>
+        </header>
 
-<nav id="mainnav">
-    <ul>
-        <li><a href="{% url 'index' %}">Home</a></li>
-        {% if user.is_authenticated %}
-            <li><a href="{% url 'appl_create' %}">Antrag erstellen</a></li>
-            <li><a href="{% url 'profile_edit' %}">Profil</a></li>
-            <li><a href="{% url 'account_logout' %}">Logout</a></li>
-        {% else %}
-            <li><a href="{% url 'account_signup' %}">Registrieren</a></li>
-            <li><a href="{% url 'account_login' %}">Login</a></li>
-        {% endif %}
-        <li><a href="{% url 'api-root' %}">API</a></li>
-        <li><a href="{% url 'imprint' %}">Impressum</a></li>
-    </ul>
-</nav>
+        <nav id="mainnav">
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'appl_create' %}">Antrag erstellen</a></li>
+                    <li><a href="{% url 'profile_edit' %}">Profil</a></li>
+                    <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'account_signup' %}">Registrieren</a></li>
+                    <li><a href="{% url 'account_login' %}">Login</a></li>
+                {% endif %}
+                <li><a href="{% url 'api-root' %}">API</a></li>
+                <li><a href="{% url 'imprint' %}">Impressum</a></li>
+            </ul>
+        </nav>
 
-<nav id="subnav">
-    {% block subnav %}{% endblock %}
-</nav>
+        <nav id="subnav">
+            {% block subnav %}{% endblock %}
+        </nav>
 
-<div id="c_wrap" class="wrapper">
-    <div class="inner">
-        {% block content %}{% endblock %}
+
+        <div class="inner">
+            {% block content %}{% endblock %}
+        </div>
     </div>
-</div>
-
 </body>
 </html>

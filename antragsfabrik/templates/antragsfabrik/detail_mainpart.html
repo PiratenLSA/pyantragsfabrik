@@ -6,16 +6,17 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 {% load markdown_deux_tags %}
 
-{% if not preview %}
+{% if not preview and user.is_authenticated %}
     {% include "antragsfabrik/vote_box.html" %}
 {% endif %}
 
 <h2 class="appl-title">
     {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
 </h2>
-<div class="appl-subtitle">{{ application.typ }}, {{ application.status_name }}</div>
+<div class="appl-subtitle"><a href="{% url 'typ_index' application.typ.id %}">{{ application.typ.name }}</a>, {{ application.status_name }}</div>
 
 <div class="appl-main-box">
+    <h3 class="appl-label">Antrag</h3>
     <div class="appl-text">
         {% if sourcecode %}
             {{ application.text|linebreaksbr }}
@@ -24,7 +25,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
         {% endif %}
     </div>
 
-    <div class="appl-label">Begründung</div>
+    <h3 class="appl-label">Begründung</h3>
     <div class="appl-reasons">
         {% if sourcecode %}
             {{ application.reasons|linebreaksbr }}
@@ -35,9 +36,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     </div>
 
     {% if application.lqfbinitiative_set.all %}
-        <div class="appl-label">
+        <h3 class="appl-label">
             LiquidFeedback
-        </div>
+        </h3>
         <ul class="appl-lqfb">
             {% for ini in application.lqfbinitiative_set.all %}
                 <li><a href="{{ ini.url }}">{{ ini.title }}</a></li>

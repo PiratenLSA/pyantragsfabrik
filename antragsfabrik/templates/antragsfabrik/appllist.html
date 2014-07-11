@@ -6,9 +6,9 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 {% load voting_tags %}
 
-<table cellpadding=2 width=95% class="appl-overview">
+<table cellpadding=2 width=100% class="appl-overview">
     <tr>
-        <th>Punkte</th>
+        {% if user.is_authenticated %}<th>Punkte</th>{% endif %}
         <th>Title</th>
         <th>Status</th>
         <th>Antragsteller</th>
@@ -17,7 +17,7 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
     {% for application in appl_list %}
         {% score_for_object application as score %}
         <tr>
-            <td class="center">{{ score.score }}</td>
+            {% if user.is_authenticated %}<td class="center">{{ score.score }}</td>{% endif %}
             <td>{% if application.number %}{{ application.number }}: {% endif %}<a href="{% url 'appl_detail' application.id %}">{{ application.title }}</a></td>
             <td class="center">{{ application.status_name }}</td>
             <td class="center">{{ application.author.display_name }}</td>
