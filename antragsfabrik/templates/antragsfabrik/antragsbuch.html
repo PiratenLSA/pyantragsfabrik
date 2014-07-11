@@ -28,11 +28,11 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
         {% for typid, appl_list in applications.items %}
             {% if appl_list|length > 0 %}
-                <h2>{{ types|key:typid }}</h2>
+                <h2 class="type">{{ types|key:typid }}</h2>
 
                 {% for application in appl_list %}
                     <div class="page-break"></div>
-                    <h3>
+                    <h3 class="application">
                         {% if application.number %}{{ application.number }}: {% endif %}{{ application.title }}
                     </h3>
 

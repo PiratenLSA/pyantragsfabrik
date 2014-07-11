@@ -1,4 +1,4 @@
-h2, h3 {
+h2.type, h3.application {
     page-break-before: always;
 }
 

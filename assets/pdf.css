@@ -21,11 +21,11 @@ h1 {
     font-size: 32pt;
 }
 
-h2 {
+h2.type {
     font-size: 24pt;
 }
 
-h3 {
+h3.application {
     margin-bottom: 0;
 }
 
